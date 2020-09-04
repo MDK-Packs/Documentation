@@ -1,72 +1,52 @@
-# Porting to Custom Hardware
+# Porting of Example Projects Based on STMicroelectronics to Custom Hardware
 
-This repository is a basic example for a Markdown based application note. It describes the process of porting hardware and software running on a development board to custom user hardware. This description is intended to help users to bridge the gap between starting with an example project (that they have downloaded from Solar) and their own bespoke hardware that they will finally ship to their customers.
+This application note describes the process of porting hardware and software running on a STMicroelectronics development board to custom user hardware. This description is intended to help users to bridge the gap between starting with an example project and their own bespoke hardware that they will finally ship to their customers.
 
-## License
+## Required Steps
 
-This application note is licensed under [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0).
+Porting to a new device and your custom hardware is done in these five easy steps:
 
-# Example: Porting process starting from the B-L475E-IOT01A_BSP
+1. [Switch target device](#switch-target-device)
+2. [Remove unavailable components](#remove-unavailable-components)
+3. [Configure in STM32CubeMX](#configure-in-stm32cubemx)
+4. [Update generated code](#update-generated-code)
+5. [Configure in µVision](#configure-in-µVision)
 
-The following describes how to port example code from an existing project for the [STMicroelectronics' B-L475E-IOT01A](https://www2.keil.com/iot/b-l475e-iot01a) to another device from the same device family that is mounted on some custom hardware.
+## Switch Target Device
 
-The starting point of this effort is the [platform example project](https://github.com/MDK-Packs/B-L475E-IOT01A_BSP/tree/develop/Projects/Platform) for the B-L475E-IOT01A.
-
-## Start with the existing project
-
-Download and open existing the [platform example project](https://github.com/MDK-Packs/B-L475E-IOT01A_BSP/tree/develop/Projects/Platform). Once opened, go to **Project - Options for Target 'B-L475E-IOT01A'** (or press Alt+F7) and select the **Device** tab. Change the selected device from STM32L475VGTx to STM32L496QEIx and click OK:
+In your currently opened µVision project, go to **Project - Options for Target 'B-L475E-IOT01A'** (or press Alt+F7) and select the **Device** tab. Change the selected device to your new target device (here: STM32L496QEIx) and click OK:
 
 ![Options for target](images/stm32l496qeix.png "Change target device in the target options")
 
-Next, the **Manage Run-Time Environment** window opens which asks you to remove unavailable components or to exchange them with available ones:
+## Remove Unavailable Components 
 
-- Expand the **Board Support:Drivers** group and deselect *all* components.
-- Expand **CMSIS Driver:VIO (API)** group and deselect *Board* component.
-- Click OK:
+Next, the **Manage Run-Time Environment** window opens which shows software components that are not available with your newly selected target device:
 
-  ![Manage Run-Time Environment window](images/deselect_components.png "Remove unavailable software components")
+![Manage Run-Time Environment window](images/uv_unavailable_components.png "Remove unavailable software components")
 
+- Deselect *all* components that are shown in red.
+- Click OK.
 - Close the project in µVision.
 
-Before continuing, you should remove the previously generated files from STM32CubeMX. Afterwards, you will create new ones for the new target device.
+## Configure in STM32CubeMX
 
-Using your file manager, navigate to the project's subfolder `./RTE/Device` and delete the folder *STM32L475VGTx*.
+Before continuing, you need to remove the previously generated files by STM32CubeMX. Afterwards, you will create new ones for the new target device. This will also remove the entries in the `/* USER CODE */` sections of the files that are generated and editable. If you wish to keep these code snippets, make sure to save your work somewhere else.
+
+Using your file manager, navigate to the project's subfolder `./RTE/Device` and delete the folder containing the previously used target device, for example *STM32L475VGTx*.
 
 Switch back to µVision and reopen the project (from the **Project** menu item).
 
-Go to **Project - Manage - Run-Time Environment** and expand **Device:STM32Cube Framework (API)**. Enable *STM32CubeMX* and click OK. An new window will ask to launch STM32CubeMX:
+Go to **Project - Manage - Run-Time Environment** and expand **Device:STM32Cube Framework (API)**. Enable *STM32CubeMX* and click OK. An new window will ask to launch STM32CubeMX.:
 
 ![Start STM32CubeMX](images/start_cubemx.png "Start STM32CubeMX")
 
-Pressing the **Start STM32CubeMX** button will launch the application and preconfigure it for the new target device:
+Pressing the **Start STM32CubeMX** button will launch the application and preconfigure it for the new target device. Configure the device as described in the [STM32Cube documentation](https://www.keil.com/pack/doc/STM32Cube/html/cubemx_using.html#cubemx_sys_config). Once done, switch back to µVision.
 
-![STM32CubeMX with STM32L496QEIx open](images/cubemx_l496qeix.png "STM32CubeMX with STM32L496QEIx open")
+## Update Generated Code
 
-## Device Configuration in STM32CubeMX
+In the previous step, it was mentioned that the user code in the generated files needs to be saved so that it can be reapplied now. For most example projects, the following is required to be added to the `main.c` file in the group **STM32CubeMX:Common Sources**:
 
-For details about device configuration with STM32CubeMX, consult the online help of the tool itself. Here's the minimal configuration that you need to do to continue with your custom project:
-
-- On the **Pinout & Configuration** tab, configure the required peripherals under **System Core**, **Connectivity** etc.
-  - Under **System Core** select *NVIC* and switch to the **Code generation** tab.
-  - Clear the **Generate IRQ handler** checkbox for *System service call...*, *Pendable request...* and *Time base...*:
-    ![Minimal NVIC Settings](images/nvic_settings.png "Minimal NVIC Settings")
-- On the **Clock Configuration** tab, configure system and peripheral clocks as required by your application.
-- On the **Project Manager** tab, select the **Code Generator**.
-  - Under **STM32Cube MCU packages and embedded software packs** select *Add necessary library files...*:
-    ![Add library files](images/cubemx_code_generator.png "Add library files")
-- Press **GENERATE CODE**.
-- Press Close when the code generation notification dialog opens:
-  ![Code Generation successful](images/cubemx_code_gen_window.png "Code Generation successful")
-- You can safely close STM32CubeMX now.
-- Return to µVision and click the OK button to import the changes:
-
-  ![Import STM32CubeMX generated files](images/uv_import_cubemx.png "Import STM32CubeMX generated files")
-
-## Work on the Source Code in µVision
-
-### Add Source Code to the Project
-
-Open the source file containing the `main` application entry function and add the following `#include` statements:
+Add the following `#include` statements:
 
 ```C
 #include "cmsis_os2.h"
@@ -76,7 +56,7 @@ Open the source file containing the `main` application entry function and add th
 #endif
 ```
 
-In `main`, add the following code:
+Add the following code:
 
 - Configure system clocks and update system clock variable (add following code snippet):
 
@@ -103,30 +83,15 @@ In `main`, add the following code:
   osKernelStart();                              /* Start thread execution */
 ```
 
-### Remove Unnecessary Files and Select Appropriate Components
+If in doubt, check the copy of the old generated files using a file compare tool.
 
-In the **Project** window, right-click on *Board IO* and select *Remove Group 'Board IO' and its Files* to delete this group from the target:
-![Remove source group Board_IO](images/uv_remove_board_io.png "Remove source group Board IO") 
+## Configure in µVision
 
-Go to **Project - Manage - Run-Time Environment** and expand **Compiler:I/O:** to reconfigure the retargetting of the C library's STDIO:
-- STDERR component: select ITM variant
-- STDIN component: select ITM variant
-- STDOUT component: select ITM variant
+Finally, you need to configure the project to your needs. There's no general rule here what to do, but here are a couple of items that you can check:
 
-![Retarget STDIO](images/uv_stdio_retarget.png "Retarget STDIO")
-
-Expand the **CMSIS Driver** group and select/deselect the required drivers for the interfaces that you are using in your custom application, for example I2C, MCI, SPI, USART, VIO, WiFi.
-
-Finally, resolve the dependencies (press the *Resolve* button) and/or select components that are shown in the **Validation Output** window.
-
-Press OK to close the **Manage Run-Time Environment** window:
-
-![Finalize Component Selection](images/uv_final_rte.png "Finalize Component Selection")
-
-### Driver Configuration
-
-Ensure that CMSIS Drivers are configured as specified. The documentation is accessible via the **Manage Run-Time Environment** window under the *Device::STM32Cube Framework(API)* component (check the Description column). Refer to the chapter: STM32L4 CMSIS-Drivers Configuration documentation.
-
-### Other Configuration
-
-Configure the µVision project as you are used to for other development projects. For example, set compiler options,configure the debugger, and set stack and heap as required by the application. Do not forget to [locate Event Recorder in uninitialized memory](https://www.keil.com/pack/doc/compiler/EventRecorder/html/er_use.html#place_uninit_memory).
+- In the **Project** window, remove unnecessary files (not generated by STM32CubeMX, but added manually).
+- In the **Manage Run-Time Environment** window:
+  - Select appropriate software components (for example check the selected retargeting method under **Compiler:I/O:**).
+  - Add required CMSIS-Drivers under the **CMSIS Driver** group (for example I2C, MCI, SPI, USART, VIO, WiFi).
+- Ensure that CMSIS-Drivers are configured as specified. The documentation is accessible via the **Manage Run-Time Environment** window under the *Device::STM32Cube Framework(API)* component (check the **Description** column). Refer to the chapter: STM32L4 CMSIS-Drivers Configuration documentation.
+- Configure the µVision project as you are used to for other development projects. For example, set compiler options,configure the debugger, and set stack and heap as required by the application. Do not forget to [locate Event Recorder in uninitialized memory](https://www.keil.com/pack/doc/compiler/EventRecorder/html/er_use.html#place_uninit_memory).
