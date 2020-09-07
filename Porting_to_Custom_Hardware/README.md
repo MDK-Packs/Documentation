@@ -30,9 +30,9 @@ Next, the **Manage Run-Time Environment** window opens which shows software comp
 
 ## Configure in STM32CubeMX
 
-Before continuing, you need to remove the previously generated files by STM32CubeMX. Afterwards, you will create new ones for the new target device. This will also remove the entries in the `/* USER CODE */` sections of the files that are generated and editable. If you wish to keep these code snippets, make sure to save your work somewhere else.
+Before continuing, you need to rename the previously generated GPDSC file so that µVision creates a new one for the updated target device. This procedure will remove the entries in the `/* USER CODE */` sections of the files that are generated and editable. If you wish to keep these code snippets, make sure to save your work somewhere else.
 
-Using your file manager, navigate to the project's subfolder `./RTE/Device` and delete the folder containing the previously used target device, for example *STM32L475VGTx*.
+Using your file manager, navigate to the project's subfolder `./RTE/Device/previous_target` and rename the file `FrameworkCubeMX.gpdsc` to `FrameworkCubeMX.gpdsc.bak`.
 
 Switch back to µVision and reopen the project (from the **Project** menu item).
 
@@ -40,7 +40,9 @@ Go to **Project - Manage - Run-Time Environment** and expand **Device:STM32Cube 
 
 ![Start STM32CubeMX](images/start_cubemx.png "Start STM32CubeMX")
 
-Pressing the **Start STM32CubeMX** button will launch the application and preconfigure it for the new target device. Configure the device as described in the [STM32Cube documentation](https://www.keil.com/pack/doc/STM32Cube/html/cubemx_using.html#cubemx_sys_config). Once done, switch back to µVision.
+Pressing the **Start STM32CubeMX** button will launch the application and preconfigure it for the new target device. Configure the device as described in the [STM32Cube documentation](https://www.keil.com/pack/doc/STM32Cube/html/cubemx_using.html#cubemx_sys_config). You can also try to import the configuration of the previous device using STM32CubeMX' import menu. Load the file `STCubeGenerated.ioc` from the directory `./RTE/Device/previous_target/STCubeGenerated`.
+
+Once done, switch back to µVision.
 
 ## Update Generated Code
 
