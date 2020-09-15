@@ -32,9 +32,13 @@ In the navigation pane of the [AWS IoT console](https://console.aws.amazon.com/i
 
 Now you are ready to connect your device to the AWS IoT Cloud.
 
-## In µVision
+## In the Project
 
-## Configure AWS IoT Client: IoT Client:iot_config.h
+To be able to communicate with the AWS server, you need to add the certificates to your project.
+
+## Configure the AWS IoT Client
+
+Usually, the following settings have to be done in the `IoT Client` software component's `iot_config.h` file.
 
 1. `IOT_DEMO_SERVER`: Enter your custom endpoint, as noted down before.
 2. `IOT_DEMO_IDENTIFIER`: Enter the thing’s name here (as created in the AWS IoT console).
