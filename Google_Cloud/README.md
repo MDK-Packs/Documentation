@@ -1,11 +1,11 @@
 # Google Cloud 
 
 This tutorial explains how to create a certificates for your device in the Google Cloud. In the Google Cloud IoT console, you need to:
-1. [Select or create a project.](select-or-create-a-project)
-2. [Create a device registry.](create-a-device-registry)
-3. [Add a device to the registry.](add-a-device-to-the-registry)
-4. [Create key pairs.](create-key-pairs)
-5. [Add a public key to the device.](add-a-public-key-to-the-device)
+1. [Select or create a project.](#select-or-create-a-project)
+2. [Create a device registry.](#create-a-device-registry)
+3. [Add a device to the registry.](#add-a-device-to-the-registry)
+4. [Create key pairs.](#create-key-pairs)
+5. [Add a public key to the device.](#add-a-public-key-to-the-device)
 
 ## In the Google Cloud IoT Console
 
