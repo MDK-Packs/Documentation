@@ -30,4 +30,4 @@ This tutorial explains how to create certificates for your devices in the [Azure
 
 ## In the Project
 
-Update the connection string constant `connectionString` with the **Connection string—primary key** obtained from the Azure portal.
+Update the `connectionString` constant with the **Connection string—primary key** obtained from the Azure portal.
