@@ -20,4 +20,4 @@ Press **OK** to generate the code. MCXUpresso also creates a *\*.mex* file that 
 
 ## In the IDE
 
-Go back to your development tool. It should notify you about the updated files and ask you to reload them. You now can continue working on the project.
+Go back to your development tool and continue to work on the project.
