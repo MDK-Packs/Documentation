@@ -22,7 +22,18 @@ Before you start to dissect the project into different layers, you first have to
 - A *Board* layer should usually contain these components:
   - `::Device:Startup` component (hence the **Target** checkbox)
   - Peripherals with drivers and configuration thereof
-  - The `main.c` file containing initialization and startup of the RTOS kernel
+  - A `main.c` file containing at least the following:
+    ```
+    int main (void) {
+
+    SystemCoreClockUpdate();                      // System Initialization
+    ...                                           // further initialization
+    osKernelInitialize();                         // Initialize CMSIS-RTOS
+    app_initialize();                             // Initialize application
+    osKernelStart();                              // Start thread execution
+    for (;;) {}
+    }
+    ```
 - Once all project items have been assigned to a layer, go to **Project - Export - Save Project to CPRJ Format**.  
 
 ## Extracting the Layers
@@ -32,7 +43,7 @@ Before you start to dissect the project into different layers, you first have to
 - Extract the board layer using `cbuildgen.exe project_name.cprj extract --layer=Board --output=Layer`
 - Copy the `.\Layer\Board` folder into `.\CB_Lab4Layer\layer\Board\`
 - Rename Board folder to your board name (for example `.\CB_Lab4Layer\layer\Board\iENBL`)
-- If required, create a new file named `board_define` and add defines like the following: `export MYDEFINE=1`
+- If required, create a new file named `board_define` and add defines like the following: `export ARDUINO_USART_NUMBER=1`
 - Create a new file called `layer.Board.md` and enter board specific information in there. This Markdown file will be used to create the overall README.md for an example project when created using CMSIS-Build.
 
 The final folder structure in `.\CB_Lab4Layer\layer\Board\iENBL` must be as follows:
