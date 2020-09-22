@@ -19,6 +19,10 @@ Before you start to dissect the project into different layers, you first have to
 - In the **Project** window, right-click on the project components and select **Options for...**. In the options dialog, assign the layer for the component, for example:  
   ![Options for...](images/options-for.png)
 - Press **OK** to close the dialog.
+- A *Board* layer should usually contain these components:
+  - `::Device:Startup` component (hence the **Target** checkbox)
+  - Peripherals with drivers and configuration thereof
+  - The `main.c` file containing initialization and startup of the RTOS kernel
 - Once all project items have been assigned to a layer, go to **Project - Export - Save Project to CPRJ Format**.  
 
 ## Extracting the Layers
@@ -37,7 +41,6 @@ The final folder structure in `.\CB_Lab4Layer\layer\Board\iENBL` must be as foll
 Board.clayer
 board_define
 layer.Board.md
-Platform.iENBL.sct
 ```
 Using this structure, you can now define layer combinations that can be used to create example projects.
 
@@ -47,18 +50,18 @@ Navigate to the `.\CB_Lab4Layer\build\` folder.
 
 - Create a new file called `List.txt` and add the possible layer combinations. Below you'll find an example. Save and close the file.
   ```
-  App=Blinky           Board=iENBL                            RTOS=RTX
-  App=Blinky           Board=iENBL                            RTOS=FreeRTOS
-  App=AWS_MQTT_Demo    Board=iENBL Module=ESP8266 Socket=WiFi RTOS=RTX
-  App=AWS_MQTT_Demo    Board=iENBL Module=ESP8266 Socket=WiFi RTOS=FreeRTOS
-  App=Azure_MQTT_Demo  Board=iENBL Module=ESP8266 Socket=WiFi RTOS=RTX
-  App=Azure_MQTT_Demo  Board=iENBL Module=ESP8266 Socket=WiFi RTOS=FreeRTOS
-  App=Google_MQTT_Demo Board=iENBL Module=ESP8266 Socket=WiFi RTOS=RTX
-  App=Google_MQTT_Demo Board=iENBL Module=ESP8266 Socket=WiFi RTOS=FreeRTOS
-  App=Paho_MQTT_Demo   Board=iENBL Module=ESP8266 Socket=WiFi RTOS=RTX
-  App=Paho_MQTT_Demo   Board=iENBL Module=ESP8266 Socket=WiFi RTOS=FreeRTOS
-  App=Watson_MQTT_Demo Board=iENBL Module=ESP8266 Socket=WiFi RTOS=RTX
-  App=Watson_MQTT_Demo Board=iENBL Module=ESP8266 Socket=WiFi RTOS=FreeRTOS
+  App=Blinky           Board=iENBL             RTOS=RTX
+  App=Blinky           Board=iENBL             RTOS=FreeRTOS
+  App=AWS_MQTT_Demo    Board=iENBL Socket=WiFi RTOS=RTX
+  App=AWS_MQTT_Demo    Board=iENBL Socket=WiFi RTOS=FreeRTOS
+  App=Azure_MQTT_Demo  Board=iENBL Socket=WiFi RTOS=RTX
+  App=Azure_MQTT_Demo  Board=iENBL Socket=WiFi RTOS=FreeRTOS
+  App=Google_MQTT_Demo Board=iENBL Socket=WiFi RTOS=RTX
+  App=Google_MQTT_Demo Board=iENBL Socket=WiFi RTOS=FreeRTOS
+  App=Paho_MQTT_Demo   Board=iENBL Socket=WiFi RTOS=RTX
+  App=Paho_MQTT_Demo   Board=iENBL Socket=WiFi RTOS=FreeRTOS
+  App=Watson_MQTT_Demo Board=iENBL Socket=WiFi RTOS=RTX
+  App=Watson_MQTT_Demo Board=iENBL Socket=WiFi RTOS=FreeRTOS
   ```
 - In the Bash shell execute: `$ ./gen_proj_list.sh List.txt --layer=../layer` in the `.\CB_Lab4Layer\build\` folder.
 
