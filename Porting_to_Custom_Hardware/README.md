@@ -10,7 +10,7 @@ Porting to a new device and/or your custom hardware is done in these steps:
 
 1. [Switch target device](#switch-target-device)
 2. [Remove board specific software components](#remove-unavailable-components)
-3. [Configure in STM32CubeMX](#configure-in-stm32cubemx)
+3. [Configure Device Setup with STM32CubeMX](#configure-in-stm32cubemx)
 4. [Update generated code](#update-generated-code)
 5. [Configure in µVision](#configure-in-µVision)
 
@@ -23,13 +23,12 @@ In the µVision project open the dialog **Project - Options for Target - Device*
 
 ## Remove Unavailable Components 
 
-Open **Project - Manage - Run-Time Environment** that shows the software component selection.  The **Board Support** software components related to the board I/O components. These components interface via the [CMSIS-Driver VIO](https://arm-software.github.io/CMSIS_5/Driver/html/group__vio__interface__gr.html) to the demo application.
+Open **Project - Manage - Run-Time Environment** that shows the software component selection.  The **Board Support** software components related to the board I/O components. These components interface via the [CMSIS-Driver VIO](https://arm-software.github.io/CMSIS_5/Driver/html/group__vio__interface__gr.html) to the demo application. Depending on the device selection, the board I/O components might be flag red to indicate that they are not available.
 
 ![Manage Run-Time Environment window](images/uv_unavailable_components.png "Remove unavailable software components")
 
-- Deselect *all* components that are shown in red.
-- Click OK.
-- Close the project in µVision.
+- Disable *all* components that belong to the **Board Support** software components.
+- Change the selection for the [CMSIS-Driver VIO](https://arm-software.github.io/CMSIS_5/Driver/html/group__vio__interface__gr.html) from **Board** to **Virtual** or **Costom**.
 
 ## Configure in STM32CubeMX
 
