@@ -1,26 +1,29 @@
-# Porting of Example Projects Based on STMicroelectronics to Custom Hardware
+# Migrate STM32 Based Example Projects to Custom Hardware
 
-This application note describes the process of porting hardware and software running on a STMicroelectronics development board to custom user hardware. This description is intended to help users to bridge the gap between starting with an example project and their own bespoke hardware that they will finally ship to their customers.
+This section describes the porting process of software example projects that run on an STMicroelectronics development board (i.e. Nucleo or Discovery) to custom hardware that uses the same or a similar device from the same microcontroller family.
+
+In the following steps, the software example project was initally running on the STMicroelectronics B-L475E-IOT01A evaluation board. The custom hardware uses a slightly different device from the STM32L4 series, in this case the STM32L496QEIx and does not offer the demo hardware (button, LED, and sensors). In the software example project the board peripherals are connected via the [CMSIS-Driver VIO](https://arm-software.github.io/CMSIS_5/Driver/html/group__vio__interface__gr.html).
 
 ## Required Steps
 
-Porting to a new device and your custom hardware is done in these five easy steps:
+Porting to a new device and/or your custom hardware is done in these steps:
 
 1. [Switch target device](#switch-target-device)
-2. [Remove unavailable components](#remove-unavailable-components)
+2. [Remove board specific software components](#remove-unavailable-components)
 3. [Configure in STM32CubeMX](#configure-in-stm32cubemx)
 4. [Update generated code](#update-generated-code)
 5. [Configure in µVision](#configure-in-µVision)
 
+
 ## Switch Target Device
 
-In your currently opened µVision project, go to **Project - Options for Target 'B-L475E-IOT01A'** (or press Alt+F7) and select the **Device** tab. Change the selected device to your new target device (here: STM32L496QEIx) and click OK:
+In the µVision project open the dialog **Project - Options for Target - Device** and change the device selection to your new target device (here: STM32L496QEIx).
 
-![Options for target](images/stm32l496qeix.png "Change target device in the target options")
+![Options for target](images/stm32l496qeix.png "Change target device in Project - Options for Target")
 
 ## Remove Unavailable Components 
 
-Next, the **Manage Run-Time Environment** window opens which shows software components that are not available with your newly selected target device:
+Open **Project - Manage - Run-Time Environment** that shows the software component selection.  The **Board Support** software components related to the board I/O components. These components interface via the [CMSIS-Driver VIO](https://arm-software.github.io/CMSIS_5/Driver/html/group__vio__interface__gr.html) to the demo application.
 
 ![Manage Run-Time Environment window](images/uv_unavailable_components.png "Remove unavailable software components")
 
