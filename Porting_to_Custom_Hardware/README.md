@@ -8,14 +8,14 @@ In the following steps, the software example project was initally running on the
 
 Porting to a new device and/or your custom hardware is done in these steps:
 
-1. [Switch target device](#switch-target-device)
+1. [Change device selection to match the new target hardware](#change-target-device)
 2. [Remove board specific software components](#remove-unavailable-components)
-3. [Configure Device Setup with STM32CubeMX](#configure-in-stm32cubemx)
+3. [Configure or import device setup with STM32CubeMX](#configure-in-stm32cubemx)
 4. [Update generated code](#update-generated-code)
 5. [Configure in µVision](#configure-in-µVision)
 
 
-## Switch Target Device
+## Change Target Device
 
 In the µVision project open the dialog **Project - Options for Target - Device** and change the device selection to your new target device (here: STM32L496QEIx).
 
@@ -28,7 +28,7 @@ Open **Project - Manage - Run-Time Environment** that shows the software compone
 ![Manage Run-Time Environment window](images/uv_unavailable_components.png "Remove unavailable software components")
 
 - Disable *all* components that belong to the **Board Support** software components.
-- Change the selection for the [CMSIS-Driver VIO](https://arm-software.github.io/CMSIS_5/Driver/html/group__vio__interface__gr.html) from **Board** to **Virtual** or **Costom**.
+- Change the selection for the [CMSIS-Driver VIO](https://arm-software.github.io/CMSIS_5/Driver/html/group__vio__interface__gr.html) from **Board** to **Virtual** or **Costom**.  For the selection **Costom** you should create a custom implementation of a CMSIS-Driver VIO.
 
 ## Configure in STM32CubeMX
 
