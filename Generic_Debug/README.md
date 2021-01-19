@@ -11,9 +11,10 @@ Arm Keil MDK provides these features particularly suited for Arm Cortex-M proces
 1. [Dynamic syntax checking](https://www.keil.com/support/man/docs/uv4/uv4_ui_dynsyntax.htm) on C/C++ source lines.
 1. [MDK-Middleware](https://www2.keil.com/mdk5/middleware) contains software stacks for TCP/IP networking, USB host and device, Flash file systems, and graphics.
 1. Professional grade [Keil RTX5](https://www2.keil.com/mdk5/cmsis/rtx) included.
-1. [Event Recorder](https://www2.keil.com/mdk5/debug/eventrecorder) for low-impact source code annotations.
+1. [Event Recorder](#debugging-using-event-recorder) for low-impact source code annotations.
 1. Components for [functional safety](https://www2.keil.com/mdk5/safety/): compiler safety qualification kit and functional safety run-time system.
-1. CoreSight Serial Wire Viewer and ETM trace capability on appropriately equipped devices.
+1. CoreSight Serial Wire Viewer.
+1. [ETM trace](#etm-trace) for [instruction trace](#instruction-trace), [code coverage](#code-coverage), [performance analysis](#performance-analysis), and [execution profiling](#execution-profiling).
 1. Choice of debug adapters: ULINK family, J-Link, ST-Link, NXP MCU-LINK, and other third party adapters.
 
 ## CoreSight Definitions
@@ -124,7 +125,7 @@ There is a global variable `g_msTicks` located in `blinky.c` near line 11 we can
 *Tip:* You do not need to stop the program execution to enter variables, raw addresses or structures in a **Watch** or **Memory** window.
 
 1. Click on `<Enter expression>` twice and enter: `SystemCoreClock`
-2. Right click on the `Value` and deselect **Hexadecimal Display**. 25 MHz will be displayed:
+2. Right click on the `Value` and deselect **Hexadecimal Display**. 25 MHz will be displayed:  
 ![SystemCoreClock in Watch 1 Window](./images/SystemCoreClockWatch.png)
 
 #### Memory Window
@@ -133,7 +134,7 @@ There is a global variable `g_msTicks` located in `blinky.c` near line 11 we can
 2. Note the changing value of `g_msTicks` is displaying its address in **Memory 1** as if it is a pointer. This is useful to see what address a pointer is pointing to. But this not what we want to see at this time.
 3. Right click in **Memory 1** and select **Unsigned Long** to see the data field as 32-bit numbers.
 4. Add an ampersand `&` in front of the variable name `g_msTicks` and press Enter. Now the physical address is shown (0x2000_0008) in this case. This physical address could change with different compilation optimizations.
-5. The data contents of `g_msTicks` is displayed as shown:
+5. The data contents of `g_msTicks` is displayed as shown:  
 ![g_msTicks in Memory 1 Window](./images/gmsTicksMemory.png)
 6. Right click on the memory data value and select **Modify Memory at 0x20000008**. Enter a value and this will be pushed into `g_msTicks`. Since `g_msTicks` is updated often, you will only see the new value displayed for a very short time.
 7. ![Stop](./images/b_uv4_stop.png) **Stop** the application.
@@ -190,7 +191,7 @@ Most Armv7-M and Armv8-M based processors have four data comparators. Since each
 6. Click on Close.
 7. ![Run](./images/b_uv4_run.png) **Run (F5)** the application.
 8. When `g_msTicks` equals `0x1` the program will halt. This is how a Watchpoint works.
-9. You will see `g_msTicks` displayed with a value of 0x44 in the Watch window:
+9. You will see `g_msTicks` displayed with a value of 0x44 in the Watch window:  
 ![Watch Window](./images/watchpoint_watch.png)
 10. Delete the Watchpoint by selecting **Kill All** in the **Breakpoints** window or use ![Kill all Breakpoints in Current Target](./images/b_uv4_kill_all_bpnt.png) **Kill all Breakpoints in Current Target**.
 11. Select Close.
@@ -214,6 +215,8 @@ If you put a RAM address as the expression with no value, the next read and/or w
 - You can create a Watchpoint with a raw address and no variable value. This is useful for detecting stack overruns. Physical addresses can be entered as `*((unsigned long *)0x20000000)`. Or simply enter the address as shown above.
 
 ## Debugging using Event Recorder
+
+**Event Recorder** provides an API (function calls) for event annotations in the application code or software component libraries. It only uses CoreSight DAP to output data from the target (memory reads/writes). This means any debug adapter can be used. MDK-Middleware, Keil RTX5, and CMSIS-FreeRTOS are already annotated. [Event Recorder EVR](https://www.keil.com/support/man/docs/uv4/uv4_db_dbg_evr.htm) requires a certain amount of system RAM.
 
 ### printf without a UART
 
@@ -271,8 +274,7 @@ It can be important to preserve the EVR data located in target RAM memory in the
 
 ### Code Annotation with Event Recorder
 
-With Event Recorder, you can annotate your source code which can be displayed in various information windows. It only uses CoreSight DAP to output data from the target (memory reads/writes). This means any debug adapter can be used. MDK-Middleware, Keil RTX5, and CMSIS-FreeRTOS are already annotated. [Event Recorder EVR](https://www.keil.com/support/man/docs/uv4/uv4_db_dbg_evr.htm) requires a certain amount of system RAM.
-
+With Event Recorder, you can also annotate your source code which can be displayed in various information windows. 
 **Configure Event Recorder**
 
 1. Confirm that the *Configure Event Recorder* steps in the previous section were completed.
@@ -397,7 +399,7 @@ SWV is not supported in simulation mode. For SWV a debug adapter connected to re
 **Configure the Target Driver Setup to use Serial Wire Viewer**
 
 1. Go to ![Options for Target](./images/b_uv4_target_options.png) **Project - Options for Target... (Alt+F7)** and switch to the **Debug** tab.
-2. On the right-hand side, select you debug adapter and click on the **Settings**. The **Target Driver Setup** window opens.
+2. On the right-hand side, select your debug adapter and click on **Settings**. The **Target Driver Setup** window opens.
 3. Select the **Trace** tab:  
    ![Target Driver Setup Window](./images/target_driver_setup.png)
 4. In **Core Clock:** enter the correct core clock of your target device. This value will be used for calculating timing values.
@@ -544,3 +546,129 @@ The CoreSight debug components consume some amount of power. This will be reflec
 4. System Analyzer will display the waveform as shown below:  
    ![Energy Measurement without Debug](./images/energy_wo_debug.png)  
    Any features needing CoreSight will not be available.
+
+## ETM Trace
+
+Many Armv7-M/Armv8-M devices incorporate an Embedded Trace Macrocell (ETM) which provides instruction trace. Streaming instruction trace directly to your PC, the µVision debugger enables review of historical sequences, execution profiling, performance optimization, and code coverage analysis.
+
+**Configure the Target Driver Setup to use ETM Trace**
+
+For the following, you need to connect a [ULINKpro](https://www2.keil.com/mdk5/ulink/ulinkpro) debug and trace adapter to your target board using the [20-pin Cortex+ETM connector](https://www2.keil.com/coresight/coresight-connectors#etm).
+
+1. Go to ![Options for Target](./images/b_uv4_target_options.png) **Project - Options for Target... (Alt+F7)** and switch to the **Debug** tab.
+1. Remove any **Initialization File** that might be present.
+2. On the right-hand side, select **ULINK Pro Cortex Debugger** and click on **Settings**. The **Target Driver Setup** window opens.
+3. Select the **Trace** tab:  
+   ![Target Driver Setup Window](./images/target_driver_setup_pro.png)
+4. In **Core Clock:** enter the correct core clock of your target device. This value will be used for calculating timing values.
+5. If your device runs a different trace clock, you might need to unselect **Use Core Clock** and enter the correct trace clock speed. 
+4. Select **Trace Enable** for SWV data trace.
+4. Select **ETM Trace Enable** for ETM.
+5. Set **Trace Port** to **Sync Trace Port with 4-bit Data**.
+6. The last 1 million trace frames will be saved with the older ones being overwritten. If you need to save them all, select also **Unlimited Trace**. Your hard drive space will determine how many are saved. ULINKpro is a streaming trace.
+10. ETM and SWV are now configured and ready to use. Click **OK** twice to return to the main μVision menu.
+
+### Instruction Trace
+
+**Open the Trace Data Window and Confirm Trace is Working**
+
+1. ![Open Trace Data Window](./images/b_uv4_instructiontrace.png) Go to **View - Trace** and select **Trace Data**.
+2. The Trace Data window will look similar to the one below if it is working correctly:  
+   ![ETM Trace Data Window](./images/etm_trace_data_window.png)
+3. If you do not see trace frames in this window, go to **View - Trace** and select **Enable Trace Recording**.
+
+*Tips:*
+
+- You must stop the program to view the trace frames in the **Trace Data** window.
+- All frames are executed instructions with source if available.
+- The **Function** column displays the name of its function with the first instance highlighted in orange.
+
+**View ETM Frames starting at Reset**
+
+1. Scroll to the top of the **Trace Data** window to the first frame. This is the first instruction executed after the initial RESET sequence. In this case, it is a `LDR` instruction in the RESET_Handler function as shown below:  
+   ![ETM Trace from Reset](./images/etm_trace_from_reset.png)
+2. If you use the **Memory** window to look at location `0x04`, you will find the address of the first instruction there and this will match with that displayed in the first frame. In my case it is `0x1A00_1330 + 1 = 0x1A00_1331` (+1 says it is a Thumb&reg; instruction). The first occurrence in a function is highlighted in orange to make the start of functions easier to find.
+3. Any source code associated with an instruction is displayed in the **Src Code / Trigger Addr** column.
+4. If you double-click on any line, this will be highlighted in both the **Disassembly** and the relevant source window.
+
+*Tip:*
+
+- If you unselect **Run to main()** in the **Debug** tab of the ![Options for Target](./images/b_uv4_target_options.png) **Options for Target...** window, no instructions will be executed when you enter debug mode. The program counter will be `0x1A00_1330`. You can run or single-step from that point and this will be recorded in the **Trace Data** window.
+
+**How to Find Interesting Trace Frames**
+
+Capturing all the instructions executed is possible in simulation and with ULINKpro but this might not be practical. It is not easy sorting through millions of trace frames or records looking for the ones you want. Use **Trace Filters**, **Find**, or save everything to a file and search with a different application program such as a spreadsheet.
+
+*Trace Filters*
+
+In the **Trace Data** window, you can select various types of frames to be displayed. The **Display:** box shows the various options available:  
+![Trace Data Display Filtering](./images/trace_data_display.png)
+
+*Note:*
+
+- These filters are post collection.
+
+*Find a Trace Record*
+
+In the **Find a Trace Record** box, enter `bx` as shown here:  
+![Find a Trace Record Box](./images/find_trace_record_box.png)
+
+You can select properties/columns where you want to search in the “in” box.
+
+Select the **Find a Trace Record** icon ![Find a Trace Record Icon](./images/b_uv4_find2.png) and the following screen opens:  
+![Find a Trace Record Window](./images/find_trace_record_window.png)
+
+Click on **Find Next** and each time it will step through the trace records highlighting each occurrence of the instruction `bx`. Or you can press "Enter" to go to the next occurrence of the search term.
+
+### Trace Triggering with Tracepoints
+
+The data stream capture can be controlled and filtered by using tracepoints. μVision has three types of trace trigger commands:
+
+1. [TraceRun](https://www.keil.com/support/man/docs/uv4/uv4_cm_tracerun.htm): Starts ETM trace collection when encountered.
+2. [TraceSuspend](https://www.keil.com/support/man/docs/uv4/uv4_cm_tracesuspend.htm): Stops ETM trace collection when encountered. ETM tracing must have been started with **TraceRun**.
+3. [TraceHalt](https://www.keil.com/support/man/docs/uv4/uv4_cm_tracehalt.htm): Stops all trace data, including ETM. Trace collection can be resumed only with a STOP/RUN sequence in the µVision debugger.
+
+They are selected from the context menu by right-clicking on a valid assembly instruction in the **Disassembly** window or a **C source line**:
+![Insert Trace Point](./images/insert_tracepoint.png)
+
+**How it works**
+
+When a **TraceRun** is encountered on an instruction while the program is running, ULINKpro will start collecting trace records. When a **TraceSuspend** is encountered, trace records collection will stop there. *Everything* in between these two will be collected. This includes all instructions through any branches, exceptions and interrupts. Sometimes there is some skid past the trigger point which is normal.
+
+**Setting Trace Triggers**
+
+Setup the current application:
+
+1. Stop the program, but stay in debug mode.
+2. In `blinky.c`, set a breakpoint near line 46: `EventStartA(11);`.
+3. ![Run](./images/b_uv4_run.png) **Run (F5)** the application. Once it hits the breakpoint, it stops.
+4. Remove the breakpoint.
+5. ![Step into](./images/b_uv4_stepinto.png) **Step (F11)** once to enter the function `EventRecord2`.
+
+Setup the Trace Triggers:
+
+1. In the file `EventRecorder.c`, right click on the grey (or green) block opposite near line 1120.
+7. Select **Insert Tracepoint at or near line 1120** and select **TraceRun (ETM)**. A cyan T will appear next to that line.
+8. Right-click on the gray (or green) block opposite line 1136 `return ret;`.
+9. Select **Insert Tracepoint at line 1136** and select **TraceSuspend (ETM)**. A cyan T will appear:  
+![Tracepoints set](./images/eventrecord2.png)
+10. Clear the **Trace Data** window for convenience. This is an optional step.
+11. ![Run](./images/b_uv4_run.png) **Run (F5)** the application and after a few seconds click ![Stop](./images/b_uv4_stop.png) **Stop**.
+12. Filter exceptions out by selecting **ETM – Code Exec** in the **Display:** in the **Trace Data** window:  
+![Display Code Exec](./images/disp_code_exec.png)
+13. Examine the **Trace Data** window:  
+![Tracepoints](./images/tracepoints.png)
+14. In the **Command** window, enter `TL` and press "Enter" to display the two tracepoints:
+![Tracepoints List](./images/tracepoint_tl.png)
+15. Enter `TK*` in the **Command** window and press "Enter" to delete all tracepoints.
+
+**Trace Skid**
+
+The trace triggers use the same CoreSight hardware as the [Watchpoints](#watchpoints). This means that it is possible a program counter skid might happen. The program might not start or stop on the exact location you set the trigger to. You might have to adjust the trigger point location to minimize this effect. This is because of the nature of the comparators in the CoreSight module and it is normal behavior.
+
+### Code Coverage
+
+### Performance Analysis
+
+### Execution Profiling
+
