@@ -1,6 +1,6 @@
 # Generic Debug Tutorial
 
-The purpose of this tutorial is to introduce you to the powerful debug features of the μVision IDE. At the end of this tutorial, you will debug confidently with Arm Keil MDK.
+The purpose of this tutorial is to introduce you to the powerful debug features of μVision. At the end of this tutorial, you will debug confidently with Arm Keil MDK.
 
 ## Why use Arm Keil MDK?
 
@@ -66,7 +66,7 @@ Most of the following debug tips will work in µVision using the built-in simula
 
 - Sometimes the compiler will optimize out code. Breakpoints cannot be set on this code as evidenced by the lack of the grey blocks. Setting the compiler to an optimization level of `-O0` will usually help.
 
-#### Managing Breakpoints
+#### Manage Breakpoints
 
 1. Go to **Debug - Breakpoints (Ctrl-B)** to manage breakpoints:  
 ![Manage Breakpoints](./images/manageBKPT.png)
@@ -76,26 +76,34 @@ Most of the following debug tips will work in µVision using the built-in simula
 5. Click **Close**.
 6. Continue to ![Run](./images/b_uv4_run.png) **Run (F5)** for the next exercise.
 
+*Tip:*
+
+- For examples of breakpoint expressions, refer to the [Breakpoints Window](https://www.keil.com/support/man/docs/uv4/uv4_db_dbg_breakpnts.htm) documentation.
+
 ### Call Stack + Locals Window
 
-The **Call Stack + Locals** window displays call stack contents as well as any local variables belonging to the active function.  
+The [**Call Stack + Locals**](https://www.keil.com/support/man/docs/uv4/uv4_db_dbg_callstack.htm) window displays call stack contents as well as any local variables belonging to the active function.  
 If possible, the values of the local variables will be displayed. If this is not possible, a message such as `<not in scope>` will be displayed. The **Call Stack + Locals** window visibility can be toggled by selecting **View - Call Stack window**.
 
 1. Stop the program with the ![Stop](./images/b_uv4_stop.png) **Stop** icon. The program will probably stop in the `Delay` function.
 2. Click on the **Call Stack + Locals** window in the bottom right corner of μVision.
 3. Inspect the various entries in the Call Stack + Locals window as shown below right in this very simple example. Local variables are displayed only when they are in scope:  
-![Call Stack + Locals Window](./images/callStackLocals.png)
+   ![Call Stack + Locals Window](./images/callStackLocals.png)
 1. Set a breakpoint in the `while (1)` loop at line 50 on the `g_ledSet = 1;`.
 5. ![Run](./images/b_uv4_run.png) **Run (F5)** the application.
 6. Shortly after, the program will stop there.
 1. ![Step into](./images/b_uv4_stepinto.png) **Step (F11)** with blinky.c in focus (its name in its tab is underlined).
 9. Note how the variables displayed change in the **Call Stack + Locals** window.
 1. ![Step into](./images/b_uv4_stepinto.png) **Step (F11)**  a few more times.
-1. Remove the **Breakpoint** to continue.
+1. Right-click on a function and select either **Show Caller Code** or **Show Callee Code** and this will be highlighted in the **Disassembly** and **source code** windows:
+   ![Call Stack + Locals Window](./images/callStackLocals_caller_callee.png)
+1. ![Step out](./images/b_uv4_stepout.png) **Step Out (Ctrl+F11)** to exit a function immediately.
+1. Remove the **Breakpoint** (by clicking on its red circle ![Breakpoint](./images/bkpt.png)) to continue.
 
 *Tips:*
 
-- You can also use ![Step out](./images/b_uv4_stepout.png) **Step Out (Ctrl+F11)** to exit a function. This is will be indicated in the **Call Stack + Locals** window.
+- You can modify a variable value in the **Call Stack & Locals** window when the program is stopped.
+- This window is only valid when the processor is halted. It does not update while the program is running because locals are normally kept in a CPU register which cannot be read by the debugger while the program is running. Any local variable values are visible only when they are in scope.
 - This is standard “run/stop” debugging. Arm CoreSight debugging technology can do much better than this. You can display global or static variables and structures updated in real-time while the program is running. No additions or changes to your code are required. They only must be converted to global or static variables so they always remain in scope.
 - Single ![Step into](./images/b_uv4_stepinto.png) **Step (F11)**: If you click inside a source window to bring it into focus, the program will step one source line at a time. If you click inside the **Disassembly** window to bring it into focus, it will then step one instruction at a time.
 
@@ -106,7 +114,7 @@ Normal functions are displayed only when they are on the stack. They are removed
 
 ### Watch and Memory Windows
 
-The **Watch** and **Memory** windows display updated variable values in real-time. They do this using Arm CoreSight DAP debugging technology. It is also possible to “put” or insert values into these memory locations in real-time using the **Memory** window while the program is running. You can change memory in a **Watch** window if data is not changing fast.
+The [**Watch**](https://www.keil.com/support/man/docs/uv4/uv4_db_dbg_watchwin.htm) and [**Memory**](https://www.keil.com/support/man/docs/uv4/uv4_db_dbg_memwin.htm) windows display updated variable values in real-time. They do this using Arm CoreSight DAP debugging technology. It is also possible to “put” or insert values into these memory locations in real-time using the **Memory** window while the program is running. You can change memory in a **Watch** window if data is not changing fast.
 There is a global variable `g_msTicks` located in `blinky.c` near line 11 we can use in the **Watch** and **Memory** windows.
 
 #### Watch Window
@@ -120,7 +128,7 @@ There is a global variable `g_msTicks` located in `blinky.c` near line 11 we can
 5. The values of `g_msTicks` are updated in real-time if *Periodic Window Update* is enabled.
 6. You can modify the value in a **Watch** window when the program is stopped or changing slowly. You can modify a variable in a **Memory** window anytime (see next section).
 
-**Adding the SystemCoreClock Variable**
+**Add the SystemCoreClock Variable**
 
 *Tip:* You do not need to stop the program execution to enter variables, raw addresses or structures in a **Watch** or **Memory** window.
 
@@ -140,8 +148,8 @@ There is a global variable `g_msTicks` located in `blinky.c` near line 11 we can
 7. ![Stop](./images/b_uv4_stop.png) **Stop** the application.
 
 *Tips:*
-- You can configure the Watch and Memory windows while the program is running in real-time without stealing any CPU cycles. You can change a Memory window value on-the-fly.
-- **View - Periodic Window Update** must be selected. Otherwise variables update only when the program is stopped.
+- You can configure the **Watch** and **Memory** windows while the program is running in real-time without stealing any CPU cycles. You can change a Memory window value on-the-fly.
+- [**View - Periodic Window Update**](https://www.keil.com/support/man/docs/uv4/uv4_ui_view.htm) must be selected. Otherwise variables update only when the program is stopped.
 
 **How It Works**
 
@@ -151,15 +159,15 @@ Remember you are not able to view *local variables* while the program is running
 
 ### System Viewer
 
-System Viewer provides the ability to view certain registers of peripherals and the CPU core. In many cases, these windows are updated in real-time while your program is running. They are available only while in debug mode. Go to **Peripherals - System Viewer** to open the peripheral windows (not available in simulation). Select CPU core registers by going to **Peripherals - Core Peripherals**.
+**System Viewer** provides the ability to view certain registers of peripherals and the CPU core. In many cases, these windows are updated in real-time while your program is running. They are available only while in debug mode. Go to **Peripherals - System Viewer** to open the peripheral windows (not available in simulation). Select CPU core registers by going to **Peripherals - Core Peripherals**.
 
-As there are no simulated system peripherals, refer to the [System Viewer](https://www.keil.com/support/man/docs/uv4/uv4_db_dbg_systemviewer.htm) for more information.
+As there are no simulated system peripherals, refer to the [**System Viewer**](https://www.keil.com/support/man/docs/uv4/uv4_db_dbg_systemviewer.htm) documentation for more information.
 
 **SysTick Timer**
 
 The example application uses the Arm Cortex-M system tick timer.
 
-1. ![Syste Viewer](./images/b_uv4_systemviewer.png) Go to **Peripherals - Core Peripherals** and then select **SysTick Tick Timer (SysTick)**.
+1. ![System Viewer](./images/b_uv4_systemviewer.png) Go to **Peripherals - Core Peripherals** and then select **SysTick Tick Timer (SysTick)**.
 1. ![Run](./images/b_uv4_run.png) **Run (F5)** the application.
 2. The **SysTick Timer** window opens:  
 ![SysTick Timer Window](./images/SysTickTimerWindow.png)
@@ -172,17 +180,19 @@ The example application uses the Arm Cortex-M system tick timer.
 8. Replace RELOAD with 0x0061A7. A STOP and CPU RESET will also accomplish this.
 9. When you are done, stop the application and close the **SysTick Tick Timer (SysTick)** window.
 
-*Tip:* As you can modify values in the System Viewer while the program is running, you can make slight timing value changes instead of the usual modify, compile, program, run cycle.
+*Tip:*
+
+- As you can modify values in the **System Viewer** while the program is running, you can make slight timing value changes instead of the usual modify, compile, program, run cycle.
 
 You must make sure a given peripheral register allows for and will properly react to such a change. Changing such values indiscriminately is a good way to cause serious problems that are difficult to find.
 
 ### Watchpoints
 
-Most Armv7-M and Armv8-M based processors have four data comparators. Since each **Watchpoint** uses two comparators, you can configure two of them. Watchpoints can be thought of as conditional (access) breakpoints. The Logic Analyzer uses the same comparators in its operations. This means in μVision you must have two variables free in the [Logic Analyzer](#using-the-logic-analyzer) to use Watchpoints. Currently, μVision supports only one Watchpoint.
+**Watchpoints** can be thought of as conditional (access) breakpoints. Most Armv7-M and Armv8-M based processors have four data comparators. Since each watchpoint uses two comparators, you can configure two of them. The [Logic Analyzer](#logic-analyzer) uses the same comparators in its operations. This means in μVision you must have two variables free in the Logic Analyzer to use watchpoints. Currently, μVision supports only one Watchpoint.
 
 **Configure Watchpoint**
 
-1. Using the example from the previous page, RUN or STOP the program, but stay in debug mode.
+1. Using the example from the previous page, stop the program, but stay in debug mode.
 2. Go to **Debug - Breakpoints (Ctrl-B)** to open the **Breakpoints** window.
 3. In the **Expression** box, enter g_msTicks==0x44.
 4. Select both the **Read** and **Write Access**.
@@ -197,42 +207,40 @@ Most Armv7-M and Armv8-M based processors have four data comparators. Since each
 11. Select Close.
 12. Leave Debug mode.
 
-**Using the Watchpoint in the Stack Space**
+**Use a Watchpoint in the Stack Space**
 
 If you put a RAM address as the expression with no value, the next read and/or write (as you selected) will cause the program to halt. This can be particularly useful in the Stack. Set an address at some limit and if the program reads or writes this address, the program stops.
 
 1. In this example a Watchpoint is created with address `0x2000_0008`.
 2. Running the program, the first read or write will stop the processor.
-3. The **Command** window shows the setting of this Watchpoint and its execution including the approximate instruction location:
+3. The [**Command**](https://www.keil.com/support/man/docs/uv4/uv4_db_dbg_outputwin.htm) window shows the setting of this Watchpoint and its execution including the approximate instruction location:
 ![Command Window](./images/command_wp_stop.png)
 
 *Tips:*
 
 - Skid: The instruction noted will not be the instruction causing the break as it has not been executed yet. It will be noted in **Disassembly**.
 - The instruction causing the break is probably a few instructions before this one in the execution stream.
-- To edit a Watchpoint, double-click on it in the Breakpoints window and its information will be dropped down into the configuration area. Clicking on **Define** will create another Watchpoint. You should delete the old one by highlighting it and click on Kill Selected or use the following tip.
-- The checkbox beside the expression in Current Breakpoints as shown above allows you to temporarily unselect or disable a Watchpoint without deleting it.
-- You can create a Watchpoint with a raw address and no variable value. This is useful for detecting stack overruns. Physical addresses can be entered as `*((unsigned long *)0x20000000)`. Or simply enter the address as shown above.
+- To edit a watchpoint, double-click on it in the **Breakpoints** window and its information will be dropped down into the configuration area. Clicking on **Define** will create another watchpoint. You should delete the old one by highlighting it and click on Kill Selected or use the following tip.
+- The checkbox beside the expression in **Current Breakpoints:** as shown above allows you to temporarily unselect or disable a watchpoint without deleting it.
+- You can create a watchpoint with a raw address and no variable value. This is useful for detecting stack overruns. Physical addresses can be entered as `*((unsigned long *)0x20000000)`. Or simply enter the address as shown above.
 
-## Debugging using Event Recorder
+## Debug using Event Recorder
 
-**Event Recorder** provides an API (function calls) for event annotations in the application code or software component libraries. It only uses CoreSight DAP to output data from the target (memory reads/writes). This means any debug adapter can be used. MDK-Middleware, Keil RTX5, and CMSIS-FreeRTOS are already annotated. [Event Recorder EVR](https://www.keil.com/support/man/docs/uv4/uv4_db_dbg_evr.htm) requires a certain amount of system RAM.
+[**Event Recorder (EVR)**](https://www.keil.com/support/man/docs/uv4/uv4_db_dbg_evr.htm) provides an API (function calls) for event annotations in the application code or software component libraries. It only uses CoreSight DAP to output data from the target (memory reads/writes). This means any debug adapter can be used. [MDK-Middleware](https://www2.keil.com/mdk5/middleware), [Keil RTX5](https://www2.keil.com/mdk5/cmsis/rtx), and [CMSIS-FreeRTOS](https://github.com/ARM-software/CMSIS-FreeRTOS) are already annotated. EVR requires a certain amount of system RAM.
 
 ### printf without a UART
 
-μVision provides a simple `printf` utility using the Event Recorder. It does not require a UART and it is much faster. It also and takes less code than a standard UART or USB COM port. Text is displayed in the **Debug (printf) Viewer** window as shown below.
+μVision provides a simple `printf` utility using the **Event Recorder**. It does not require a UART and it is much faster. It also and takes less code than a standard UART or USB COM port. Text is displayed in the [**Debug (printf) Viewer**](https://www.keil.com/support/man/docs/uv4/uv4_db_dbg_printf_viewer.htm) window as shown below.
 
-Event Recorder (EVR) can be used to instrument your code for any Cortex-M based device. Keil RTX5, MDK-Middleware and CMSIS-FreeRTOS are already instrumented with Event Recorder. It only uses memory reads and writes, so essentially the same technology used in **Watch**, **Memory** and **Peripheral** windows. It is supported by all debug adapters (including CMSIS-DAP).
+[**Configure Event Recorder**](https://www.keil.com/support/man/docs/uv4/uv4_db_dbg_evr_setup.htm)
 
-**Configure Event Recorder**
-
-1. If it is running, stop the program and exit debug mode (Ctrl+F5).
+1. If it is running, ![Stop](./images/b_uv4_stop.png) **stop** the application and ![Start/Stop Debug](./images/b_uv4_debug.png) exit debug mode.
 2. ![Manage Run-Time Environment](./images/b_uv4_rte.png) Go to **Project - Manage - Run-Time Environment**.
 3. Expand **Compiler** and enable **Event Recorder:DAP** and **I/O:STDOUT:EVR** as shown:
 ![Manage Run-Time Environment Window](./images/manage_rte.png)
 5. The **Validation Output** window should be empty. If not, click on the **Resolve** button to enable other missing software components.
 7. Click **OK** to close this window.
-8. `retarget_io.c`, `EventRecorder.c`, and `EventRecorderCOnf.h` will be added to your project under the **Compiler** group in the **Project** window:  
+8. `retarget_io.c`, `EventRecorder.c`, and `EventRecorderConf.h` will be added to your project under the **Compiler** group in the **Project** window:  
 ![New compiler component](./images/compiler_components.png)
 9. Right click near the top of `blinky.c`, at line 7 and select **Insert '#include file'** and select `#include "EventRecorder.h"`.
 10. In the main() function near line 39 just after `SystemCoreClockUpdate();`, add this line:  
@@ -265,9 +273,9 @@ Now, create a global variable named `counter` whose value will be printed on **D
    ![printf information in the Event Recorder window](./images/evtrec_window.png)
 8. Stop the program and exit the debug mode **(Ctrl+F5)**.
 
-### Running EVR in Non-initialized Memory
+### Run EVR in Non-initialized Memory
 
-In the **Command** window, you will see `Warning: Event Recorder not located in uninitialized memory!`. This can be safely ignored for the purpose of this tutorial.
+In the [**Command**](https://www.keil.com/support/man/docs/uv4/uv4_db_dbg_outputwin.htm) window, you will see `Warning: Event Recorder not located in uninitialized memory!`. This can be safely ignored for the purpose of this tutorial.
 
 It can be important to preserve the EVR data located in target RAM memory in the event of a crash and/or reset. Creating and using non-initialized memory is implemented by modifying the scatter file.
 [Knowledge base article 4012](https://www.keil.com/support/docs/4012.htm) explains how to modify your project to do so.
@@ -296,7 +304,7 @@ With Event Recorder, you can also annotate your source code which can be display
 
 - Hover your mouse over **Event Property** entries to gain more information.
 
-### Determining Relative Timing Values
+### Determine Relative Timing Values
 
 1. Unselect **Enable** in the Event Recorder window to stop the collection of data.
 2. Right-click on the first in a sequence of stdout frames and select **Set Time Reference**. The selected frame will turn from blue to green.
@@ -311,7 +319,7 @@ With Event Recorder, you can also annotate your source code which can be display
 - Using event annotations provides a useful time link to your source code.
 - Using printf with a 9600 baud UART with 8 characters uses about 80,000 CPU cycles or about 8 msec. Using Event Recorder is much faster taking only ~ 500 cycles. Event Recorder is 10 times faster than a UART running at highest speeds. Using an Event such as StartB(1) with 8 bytes is even faster: only ~250 CPU cycles.
 
-### Filtering the Event Recorder Window
+### Filter the Event Recorder Window
 
 It is possible to filter the window contents. Modify the information displayed in the Event Recorder window using the funnel icon which will open the **Show Event Levels** window. You can specify what elements are collected and displayed in the Event Recorder window.
 
@@ -326,9 +334,9 @@ It is possible to filter the window contents. Modify the information displayed i
    ![Filtered Event Recorder window](./images/evtrec_window_filtered.png)
 In this case, you only need to unselect the Op column. The other frames do not exist in our simple example.
 
-**Saving the Filter Settings**
+**Save Filter Settings**
 
-You can [save and recall](https://www.keil.com/support/man/docs/uv4/uv4_cm_er.htm) the filter settings. In the **Command** window, enter:
+You can [save and recall](https://www.keil.com/support/man/docs/uv4/uv4_cm_er.htm) the filter settings. In the [**Command**](https://www.keil.com/support/man/docs/uv4/uv4_db_dbg_outputwin.htm) window, enter:
 ```
 ER SAVE path\filename
 ER LOAD path\filename
@@ -336,7 +344,7 @@ ER LOAD path\filename
 
 ### Event Statistics
 
-You can add start and stop events to your source code to collect information about execution counts and times. If you are using a ULINKplus debug adapter, information can also include voltage, current and total charge (Q) consumed. Individual and aggregate times are provided. This information will be collected between the start and stop event tags including the execution of any exception handlers or program branches.
+You can add start and stop events to your source code to collect information about execution counts and times. If you are using a ULINKplus debug adapter, information can also include voltage, current and total charge (Q) consumed. Individual and aggregate times are provided in the [**Event Statistics**](https://www.keil.com/support/man/docs/uv4/uv4_db_dbg_evr_stat.htm) window. This information will be collected between the start and stop event tags including the execution of any exception handlers or program branches.
 
 - **Start:** The basic function call is EventStartX(slot) and EventStartX(slot, v1, v2)
 - **Stop:** The basic function call is EventStopX(slot) and EventStopX(slot, v1, v2)
@@ -348,6 +356,7 @@ You can add start and stop events to your source code to collect information abo
   EventStopA(2);
   EventStartB(4,34, counter);
   ```
+
 **Set Core Clock for Timing Measurements**
 
 For correct timing information when working with real hardware, the core clock needs to be set up correctly.
@@ -386,17 +395,30 @@ This provides a good method to determine timings relative to your source code. E
 - Refer to [Event Statistics Window](https://www.keil.com/support/man/docs/uv4/uv4_db_dbg_evr_stat.htm) for an in-depth explanation of this window.
 - Refer to [Event Recorder](https://www.keil.com/support/man/docs/uv4/uv4_cm_er.htm) to learn how to save Event Statistics information.
 
-## Debugging using Serial Wire Viewer (SWV)
+## Debug using Serial Wire Viewer (SWV)
 
 **Serial Wire Viewer (SWV)** provides program information in real-time and is extremely useful in debugging applications. SWV is used to display data reads and writes and exceptions which include interrupts and more.
 
 SWV is not supported in simulation mode. For SWV a debug adapter connected to real target hardware is required. 
 
-### Prerequisites
+**What kind of data can the Serial Wire Viewer display?**
 
-μVision must be running in edit mode and the project must be loaded. The hardware must be connected to the PC.
+1. Global variables.
+2. Static variables.
+3. Structures.
+4. Can see Peripheral registers – just read or write to them. The same is true for memory locations.
+5. Can see executed instructions. SWV only samples them. Use ETM to capture all instructions executed.
+6. CPU counters. Folded instructions, extra cycles and interrupt overhead.
+
+**What Kind of Data the Serial Wire Viewer can’t display**
+
+1. Can’t see local variables (just make them global or static).
+2. Can’t see register operations. PC Samples records some of the instructions but not the data values.
+3. SWV can’t see DMA transfers. This is because by definition these transfers bypass the CPU. SWV and ETM can only see CPU actions.
 
 **Configure the Target Driver Setup to use Serial Wire Viewer**
+
+μVision must be running in edit mode and the project must be loaded. The hardware must be connected to the PC.
 
 1. Go to ![Options for Target](./images/b_uv4_target_options.png) **Project - Options for Target... (Alt+F7)** and switch to the **Debug** tab.
 2. On the right-hand side, select your debug adapter and click on **Settings**. The **Target Driver Setup** window opens.
@@ -414,7 +436,10 @@ SWV is not supported in simulation mode. For SWV a debug adapter connected to re
 - For details determining the core clock speed refer to [App Note 207](https://www.keil.com/appnotes/docs/apnt_297.asp).
 - μVision uses the core clock value to calculate various timing displays even if SWV is not used. If the times displayed in various windows are incorrect, check these settings.
 
-### Displaying Exceptions and Interrupts in the Trace Exceptions Window
+
+### Display Exceptions and Interrupts in the Trace Exceptions Window
+
+The [**Trace Exceptions**](https://www.keil.com/support/man/docs/uv4/uv4_db_dbg_trace_exceptions.htm) window displays statistical data about the traced exceptions and interrupts.
 
 1. ![Build](./images/b_uv4_debug.png) **Start a Debug Session (Ctrl+F5)** to enter the µVision debugger.
 5. Go to **View - Trace** and select **Trace Exceptions**.
@@ -425,9 +450,11 @@ SWV is not supported in simulation mode. For SWV a debug adapter connected to re
 5. Various statistics are displayed. Any other active exceptions will automatically be displayed (not in this example).
 6. *Period*=14.13/14122 = 1 ms. Thus, the SysTick is generating an interrupt every millisecond.
 
-### Displaying Exceptions and Interrupts in the Trace Data Window
+### Display Exceptions and Interrupts in the Trace Data Window
 
-5. Go to **View - Trace** and select **Trace Data**.
+The [**Trace Data**](https://www.keil.com/support/man/docs/uv4/uv4_db_dbg_tracedata.htm) window shows the history of executed instructions for Cortex-M devices.
+
+1. Go to **View - Trace** and select **Trace Data**.
 1. ![Run](./images/b_uv4_run.png) **Run (F5)** the application and stop is after a little while.
 3. The **SysTick** exception is shown in Trace Data:  
    ![Trace Data Window](./images/trace_data_window.png)
@@ -436,11 +463,11 @@ SWV is not supported in simulation mode. For SWV a debug adapter connected to re
    **Exit**: when the exception or interrupt exits.  
    **Return**: when all exceptions or interrupts exit. This indicates that no Cortex tail chaining is occurring. 
 
-### Using the Logic Analyzer
+### Logic Analyzer
 
-μVision has a graphical **Logic Analyzer (LA)** window. Up to four variables can be displayed in real-time using Serial Wire Viewer. Logic Analyzer data points occur when the events happen with each data write and not periodically like the **Watch** or **Memory** windows. If an SWV overload occurs, turn off unnecessary SWV features. You could sample the data writes with another variable and then display it. The idea is to reduce SWO traffic to prevent overflows and data loss.
+μVision has a graphical [**Logic Analyzer (LA)**](https://www.keil.com/support/man/docs/uv4/uv4_db_dbg_logicanalyzer.htm) window. Up to four variables can be displayed in real-time using Serial Wire Viewer. Logic Analyzer data points occur when the events happen with each data write and not periodically like the **Watch** or **Memory** windows. If an SWV overload occurs, turn off unnecessary SWV features. You could sample the data writes with another variable and then display it. The idea is to reduce SWO traffic to prevent overflows and data loss.
 
-The LA shares the comparators in CoreSight with the [Watchpoints](#watchpoints). They are mutually exclusive.
+LA shares the comparators in CoreSight with the [Watchpoints](#watchpoints). They are mutually exclusive.
 
 1. In the µVision debugger, right-click on any occurrence of the `counter` variable in blinky.c and select **Add ‘counter’ to …** and select **Analyzer**. The LA will open.
 3. In the LA, click on **Setup**. In **Display Range** set **Max:** to 0x0F. Click on **Close**. The LA is now configured. You can also configure LA while the program is running.
@@ -465,7 +492,7 @@ timing values:
 
 ### Full System Analysis with System Analyzer
 
-System Analyzer can display much information depending on which Cortex-M processor and debug adapter you are using. Use a ULINKplus to get the most out of System Analyzer. Data reads and writes, exception/interrupt events and more are displayed. ULINKplus and ULINKpro provide this information as well as a measured core clock value with ULINKplus. In this example, Event Recorder frames, [Logic Analyzer](#using-the-logic-analyzer) `counter` and SysTick interrupts are displayed.
+[**System Analyzer**](https://www.keil.com/support/man/docs/uv4/uv4_db_dbg_systemanalyzer.htm) can display much information depending on which Cortex-M processor and debug adapter you are using. Use a ULINKplus to get the most out of System Analyzer. Data reads and writes, exception/interrupt events and more are displayed. ULINKplus and ULINKpro provide this information as well as a measured core clock value with ULINKplus. In this example, Event Recorder frames, [Logic Analyzer](#logic-analyzer) `counter` and SysTick interrupts are displayed.
 
 1. Go to **View - Analysis Windows** and select ![System Analyzer Window](./images/b_uv4_system_analyzer.png) **System Analyzer**.
 1. ![Run](./images/b_uv4_run.png) **Run (F5)** the application for a little while. The values are updating while the application runs. User the lock icon to stop the updates.
@@ -551,6 +578,23 @@ The CoreSight debug components consume some amount of power. This will be reflec
 
 Many Armv7-M/Armv8-M devices incorporate an Embedded Trace Macrocell (ETM) which provides instruction trace. Streaming instruction trace directly to your PC, the µVision debugger enables review of historical sequences, execution profiling, performance optimization, and code coverage analysis.
 
+**Types of Problems that can only be found with ETM Trace**
+
+SWV Trace adds significant power to debugging efforts. Problems which may take hours, days or even weeks in big projects can often be found in a fraction of these times with a trace. Especially useful is where the bug occurs a long time before the consequences are seen or where the state of the system disappears with a change in scope(s) or RTOS thread switches.
+
+Usually, these techniques allow finding bugs without stopping the program. These are the types of problems that can be found with a quality trace. Some of these items need ETM trace.
+
+1. Pointer problems.
+2. Illegal instructions and data aborts (such as misaligned writes): How I did I get to this fault vector?
+3. Code overwrites – writes to Flash, unexpected writes to peripheral registers: How did I get here?
+4. A corrupted stack.
+5. Out of bounds data. Uninitialized variables and arrays.
+6. Stack overflows: What causes the stack to grow bigger than it should?
+7. Probably the most important use: an application has gone off into the weeds and you need to know what instruction caused this.
+8. Communication protocol and timing issues.
+1. System timing problems.
+1. Profile Analysis and Code Coverage is provided. Available only with ETM trace.
+
 **Configure the Target Driver Setup to use ETM Trace**
 
 For the following, you need to connect a [ULINKpro](https://www2.keil.com/mdk5/ulink/ulinkpro) debug and trace adapter to your target board using the [20-pin Cortex+ETM connector](https://www2.keil.com/coresight/coresight-connectors#etm).
@@ -572,6 +616,7 @@ For the following, you need to connect a [ULINKpro](https://www2.keil.com/mdk5/u
 
 **Open the Trace Data Window and Confirm Trace is Working**
 
+1. **Start a Debug Session (Ctrl+F5)** to enter the µVision debugger.
 1. ![Open Trace Data Window](./images/b_uv4_instructiontrace.png) Go to **View - Trace** and select **Trace Data**.
 2. The Trace Data window will look similar to the one below if it is working correctly:  
    ![ETM Trace Data Window](./images/etm_trace_data_window.png)
@@ -651,15 +696,15 @@ Setup the Trace Triggers:
 7. Select **Insert Tracepoint at or near line 1120** and select **TraceRun (ETM)**. A cyan T will appear next to that line.
 8. Right-click on the gray (or green) block opposite line 1136 `return ret;`.
 9. Select **Insert Tracepoint at line 1136** and select **TraceSuspend (ETM)**. A cyan T will appear:  
-![Tracepoints set](./images/eventrecord2.png)
+   ![Tracepoints set](./images/eventrecord2.png)
 10. Clear the **Trace Data** window for convenience. This is an optional step.
 11. ![Run](./images/b_uv4_run.png) **Run (F5)** the application and after a few seconds click ![Stop](./images/b_uv4_stop.png) **Stop**.
 12. Filter exceptions out by selecting **ETM – Code Exec** in the **Display:** in the **Trace Data** window:  
-![Display Code Exec](./images/disp_code_exec.png)
+    ![Display Code Exec](./images/disp_code_exec.png)
 13. Examine the **Trace Data** window:  
-![Tracepoints](./images/tracepoints.png)
-14. In the **Command** window, enter `TL` and press "Enter" to display the two tracepoints:
-![Tracepoints List](./images/tracepoint_tl.png)
+    ![Tracepoints](./images/tracepoints.png)
+14. In the [**Command**](https://www.keil.com/support/man/docs/uv4/uv4_db_dbg_outputwin.htm) window, enter `TL` and press "Enter" to display the two tracepoints:
+    ![Tracepoints List](./images/tracepoint_tl.png)
 15. Enter `TK*` in the **Command** window and press "Enter" to delete all tracepoints.
 
 **Trace Skid**
@@ -668,7 +713,101 @@ The trace triggers use the same CoreSight hardware as the [Watchpoints](#watchpo
 
 ### Code Coverage
 
+**Code Coverage** tells what assembly instructions were executed. It is important to ensure all assembly code produced by the compiler is executed and tested. You do not want a bug or an unplanned circumstance to cause a sequence of untested instructions to be executed. The result could be catastrophic as unexecuted instructions have not been tested. Functional safety applications require **Code Coverage** for certification.
+
+The µVision debugger provides **Code Coverage** with the μVision simulator or via ETM using ULINKpro. 
+
+1. ![Start/Stop Debug](./images/b_uv4_debug.png) **Start a Debug Session (Ctrl+F5)** to enter the µVision debugger.
+1. In blinky.c, set a breakpoint near line 54 `if (g_ledSet) {`.
+2. ![Run](./images/b_uv4_run.png) **Run (F5)** the application. Once it hits the breakpoint, it stops. Remove the breakpoint.
+3. Examine the **Disassembly** and **blinky.c** windows. Scroll and notice the different color blocks in the left margin:  
+   ![Code Coverage in Disassembly](./images/cc_disassembly.png)  
+   This is **Code Coverage** provided by ETM trace. This indicates if an instruction has been executed or not.
+
+Colour blocks indicate which assembly instructions have been executed:
+
+![Light Grey](./images/light_grey.png) There is no assembly instruction here.  
+![Dark Grey](./images/dark_grey.png) This assembly instruction was not executed.  
+![Green](./images/green.png) This assembly instruction was executed.  
+![Orange](./images/orange.png) A Branch is never taken.  
+![Cyan](./images/cyan.png) A Branch is always taken.  
+![Breakpoint](./images/bkpt.png) A Breakpoint is set here.  
+![Next Statement](./images/b_uv4_next_statement.png) This points to the next instruction to be executed.
+
+*Tip:*
+
+- Code Coverage is visible in both the **Disassembly** and **source code** windows. Click on a line in one window and this place will be matched in the other window.
+
+**Code Coverage Window**
+
+A separate [**Code Coverage**](https://www.keil.com/support/man/docs/uv4/uv4_db_dbg_codecoverage.htm) window is available that shows statistics.
+
+![Open Code Coverage Window](./images/b_uv4_code_coverage.png) Go to **View - Analysis Windows** and select **Code Coverage**:  
+![Code Coverage Window](./images/cc_window.png)
+
+**Code Coverage Data in the Command Window**
+
+In the [**Command**](https://www.keil.com/support/man/docs/uv4/uv4_db_dbg_outputwin.htm) window, you can show Code Coverage in many ways, for example, enter `coverage \blinky.c\main details`:  
+![Code Coverage in Command Window](./images/cc_cmd_window.png)
+
+*Tip:*
+
+- You can copy and paste the result from the **Command** window by right-clicking into it. Save the data in a convenient format.
+
+**Save Code Coverage Data**
+
+Code Coverage information is temporarily saved during a run and is displayed in various windows as shown. It is possible to save this information in an ASCII file for use in other programs. Export to the [Gcov](https://en.wikipedia.org/wiki/Gcov) format is supported.
+
+You can Save Code Coverage in two formats:
+
+1. In a .gcov file: In the **Command** window enter `COVERAGE GCOV module` or `COVERAGE GCOV *`.
+2. In an ASCII file using the `log` command:
+   1. `log > c:\cc\test.txt` - send Code Coverage data to this file. The specified directory must exist.
+   2. `coverage asm` - provides the data for log. you can also specify a module or function.
+   3. `log off` - turn the log function off.
+
 ### Performance Analysis
+
+It is useful to optimize your code for speed. [**Performance Analyzer**](https://www.keil.com/support/man/docs/uv4/uv4_db_dbg_perfanalyzer.htm) tells you how much time was spent in each function as well as the total number of total calls. A graphical display is generated for a quick reference. If you are optimizing for speed, work first on those functions taking the longest time to execute.
+
+The µVision debugger provides **Performance Analysis** with the μVision simulator or via ETM using ULINKpro. 
+
+1. ![Start/Stop Debug](./images/b_uv4_debug.png) **Start a Debug Session (Ctrl+F5)** to enter the µVision debugger.
+2. ![Open Code Coverage Window](./images/b_uv4_performance.png) Go to **View - Analysis Windows** and select **Performance Analysis**:  
+   ![Performance Analyzer Window](./images/pa_window.png)
+4. *Do not* click on ![Run](./images/b_uv4_run.png) **Run (F5)** yet!
+4. Expand some of the module names as shown above.
+5. Shown is the number of calls and percentage of total time in this short run from reset to the start of `main()`.
+6. Now, ![Run](./images/b_uv4_run.png) **Run (F5)** the application. The **Performance Analyzer** window updates in real-time:  
+   ![Performance Analyzer Updated](./images/pa_update.png)
+
+*Tips:*
+
+- Double-click on any **Function** or **Module** name and this will be highlighted in the **Disassembly** or **source code** windows.
+- Select **Show: Functions** from the pull down box and notice the difference.
+- You can reset the Performance Analyzer window by clicking on ![Performance Analyzer Reset](./images/pa_reset.png). Watch as new data is displayed in the PA window.
 
 ### Execution Profiling
 
+[**Execution Profiling**](https://www.keil.com/support/man/docs/uv4/uv4_db_dbg_execprofiler.htm) is used to display how much time a C source line took to execute and how many times it was called. This information is provided by the ETM trace in real time while the program keeps running. The μVision simulator also provides Execution Profiling.
+
+1. ![Start/Stop Debug](./images/b_uv4_debug.png) **Start a Debug Session (Ctrl+F5)** to enter the µVision debugger.
+2. Go to **Debug - Execution Profiling** and select **Show Time**.
+3. ![Run](./images/b_uv4_run.png) **Run (F5)** the application.
+4. In the left margin of the **Disassembly** and **source code** windows various time values will be displayed.
+8. Hover the cursor over a time and more information appears as in the yellow box here:  
+   ![Execution Profiling](./images/ep_window.png)
+9. You can also select **Debug - Execution Profiling - Show Calls** to disply this information rather than the execution times in the left margin.
+
+**Outlining**
+
+At some places, there is an ![Outlining](./images/outlining.png) **Outlining** sign that can be used to collapse a code section and to compress the associated source files together.
+
+1. In `blinky.c`, click in the **Outlining** square near the `while (1) {` loop near line 44:  
+   ![Outlining in action](./images/outlining_in_action.png)
+2. The C source in the while loop is now collapsed into one line and times are added together to 8.380 us in this case.
+5. Click on ![Expand Outlining](./images/outlining_plus.png) to expand it.
+
+*Tip:*
+
+- Outlining can be useful to hide sections of code to simplify the window you are reading.
