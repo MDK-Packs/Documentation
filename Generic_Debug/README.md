@@ -95,7 +95,7 @@ If possible, the values of the local variables will be displayed. If this is not
 1. ![Step into](./images/b_uv4_stepinto.png) **Step (F11)** with blinky.c in focus (its name in its tab is underlined).
 9. Note how the variables displayed change in the **Call Stack + Locals** window.
 1. ![Step into](./images/b_uv4_stepinto.png) **Step (F11)**  a few more times.
-1. Right-click on a function and select either **Show Caller Code** or **Show Callee Code** and this will be highlighted in the **Disassembly** and **source code** windows:
+1. Right-click on a function and select either **Show Caller Code** or **Show Callee Code** and this will be highlighted in the **Disassembly** and **source code** windows:  
    ![Call Stack + Locals Window](./images/callStackLocals_caller_callee.png)
 1. ![Step out](./images/b_uv4_stepout.png) **Step Out (Ctrl+F11)** to exit a function immediately.
 1. Remove the **Breakpoint** (by clicking on its red circle ![Breakpoint](./images/bkpt.png)) to continue.
@@ -331,7 +331,7 @@ It is possible to filter the window contents. Modify the information displayed i
 5. Click ![Clear](./images/b_uv4_er_killall.png) **Clear** to make it easier to see what is happening.
 1. ![Run](./images/b_uv4_run.png) **Run (F5)** the application.
 7. The Event Recorder window no longer contains printf frames as shown below:  
-   ![Filtered Event Recorder window](./images/evtrec_window_filtered.png)
+   ![Filtered Event Recorder window](./images/evtrec_window_filtered.png)  
 In this case, you only need to unselect the Op column. The other frames do not exist in our simple example.
 
 **Save Filter Settings**
@@ -632,7 +632,7 @@ For the following, you need to connect a [ULINKpro](https://www2.keil.com/mdk5/u
 
 1. Scroll to the top of the **Trace Data** window to the first frame. This is the first instruction executed after the initial RESET sequence. In this case, it is a `LDR` instruction in the RESET_Handler function as shown below:  
    ![ETM Trace from Reset](./images/etm_trace_from_reset.png)
-2. If you use the **Memory** window to look at location `0x04`, you will find the address of the first instruction there and this will match with that displayed in the first frame. In my case it is `0x1A00_1330 + 1 = 0x1A00_1331` (+1 says it is a Thumb&reg; instruction). The first occurrence in a function is highlighted in orange to make the start of functions easier to find.
+2. If you use the **Memory** window to look at location `0x04`, you will find the address of the first instruction there and this will match with that displayed in the first frame. In my case it is `0x1A00_1330 + 1 = 0x1A00_1331` (+1 says it is a [Thumb&reg; instruction](https://developer.arm.com/documentation/ddi0210/c/Introduction/Architecture/The-Thumb-instruction-set)). The first occurrence in a function is highlighted in orange to make the start of functions easier to find.
 3. Any source code associated with an instruction is displayed in the **Src Code / Trigger Addr** column.
 4. If you double-click on any line, this will be highlighted in both the **Disassembly** and the relevant source window.
 
@@ -810,4 +810,4 @@ At some places, there is an ![Outlining](./images/outlining.png) **Outlining** s
 
 *Tip:*
 
-- Outlining can be useful to hide sections of code to simplify the window you are reading.
+- [Outlining](https://www.keil.com/support/man/docs/uv4/uv4_ui_outline.htm) can be useful to hide sections of code to simplify the window you are reading.
