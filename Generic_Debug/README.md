@@ -5,32 +5,32 @@ The purpose of this tutorial is to introduce you to the powerful debug features 
 ## Why use Arm Keil MDK?
 
 Arm Keil MDK provides these features particularly suited for Arm Cortex-M processor based devices:
-1. μVision IDE with integrated debugger, Flash programmer and the Arm compiler toolchain.
+1. [μVision IDE](https://www.keil.com/uvision) with integrated editor and debugger, flash programmer and the Arm compiler toolchain.
 1. Support for silicon vendor configuration tools.
-1. Best-in-class Arm Compiler 6 (based on open-source LLVM) is included. GCC can be added manually.
+1. Best-in-class [Arm Compiler 6](https://developer.arm.com/tools-and-software/embedded/arm-compiler) (based on open-source LLVM) is included. GCC can be added manually.
 1. [Dynamic syntax checking](https://www.keil.com/support/man/docs/uv4/uv4_ui_dynsyntax.htm) on C/C++ source lines.
 1. [MDK-Middleware](https://www2.keil.com/mdk5/middleware) contains software stacks for TCP/IP networking, USB host and device, Flash file systems, and graphics.
 1. Professional grade [Keil RTX5](https://www2.keil.com/mdk5/cmsis/rtx) included.
 1. [Event Recorder](#debugging-using-event-recorder) for low-impact source code annotations.
 1. Components for [functional safety](https://www2.keil.com/mdk5/safety/): compiler safety qualification kit and functional safety run-time system.
-1. CoreSight Serial Wire Viewer.
+1. CoreSight [**Serial Wire Viewer (SWV)**](https://www2.keil.com/coresight/#swv).
 1. [ETM trace](#etm-trace) for [instruction trace](#instruction-trace), [code coverage](#code-coverage), [performance analysis](#performance-analysis), and [execution profiling](#execution-profiling).
-1. Choice of debug adapters: ULINK family, J-Link, ST-Link, NXP MCU-LINK, and other third party adapters.
+1. Choice of debug adapters: [ULINK family](https://www2.keil.com/mdk5/ulink), Segger J-Link, ST-Link, NXP MCU-LINK, and other third party adapters.
 
 ## CoreSight Definitions
 
-1. **JTAG**: Provides access to the CoreSight debugging module located on the Cortex processor. It uses 4 to 5 pins.
-1. **Serial Wire Debug (SWD)** is a two pin alternative to *JTAG* and has about the same capabilities except boundary scan is not possible.
-1. **Serial Wire Viewer (SWV)** is a trace capability providing display of data reads/writes, exceptions, program counter (PC) samples and `printf`. SWV must use SWD because the JTAG signal TDO shares the same pin as SWO. Alternatively, SWV data can come out of the *Trace Port*.
+1. [**JTAG**](https://www2.keil.com/coresight/#jtag): Provides access to the CoreSight debugging module located on the Cortex processor. It uses 4 to 5 pins.
+1. [**Serial Wire Debug (SWD)**](https://www2.keil.com/coresight/#swd) is a two pin alternative to *JTAG* and has about the same capabilities except boundary scan is not possible.
+1. [**Serial Wire Viewer (SWV)**](https://www2.keil.com/coresight/#swv) is a trace capability providing display of data reads/writes, exceptions, program counter (PC) samples and `printf`. SWV must use SWD because the JTAG signal TDO shares the same pin as SWO. Alternatively, SWV data can come out of the *Trace Port*.
 1. **Serial Wire Output (SWO)** pin provides access to *SWV* frames. It shares the JTAG signal TDO.
 1. **Trace Port** is a 4-bit port that [ULINKpro](https://www2.keil.com/mdk5/ulink/ulinkpro) uses to collect *ETM* frames and optionally SWV (rather than SWO pin).
 1. **Debug Access Port (DAP)** is a component of the Arm CoreSight debugging module that is accessed via the JTAG or SWD port. One of the features of the DAP are the memory read and write accesses which provide on-the-fly memory accesses without the need for processor core intervention. μVision uses the DAP to update Memory, Watch, Peripheral and RTOS kernel awareness windows while the processor is running. You can also modify variable values on the fly. No CPU cycles are used, the program can be running and no code stubs are needed. You do not need to configure or activate DAP. μVision configures DAP when you select a function that uses it. Do not confuse this with CMSIS-DAP which is an Arm on-board debug adapter standard.
 1. **Instrumentation Trace Macrocell (ITM)** can be used for `printf` type debugging.
-1. **Embedded Trace Macrocell (ETM)** displays all instructions executed by the processor. This enables code coverage and performance analysis. ETM is output on the Trace Port (requires a special 20-pin CoreSight connector) or accessible in the *ETB* (no code coverage or performance analysis support).
+1. [**Embedded Trace Macrocell (ETM)**](https://www2.keil.com/coresight/#etm) displays all instructions executed by the processor. This enables code coverage and performance analysis. ETM is output on the Trace Port (requires a special 20-pin CoreSight connector) or accessible in the *ETB* (no code coverage or performance analysis support).
 1. **Embedded Trace Buffer (ETB)** is a small amount of internal RAM used as an ETM trace buffer. This trace does not need a specialized debug adapter such as a ULINKpro. ETB runs as fast as the core but is not available on all processors. See your specific datasheet.
 1. **Micro Trace Buffer (MTB)** is a portion of the device's internal user RAM that is used for an instruction trace buffer. Only available on Cortex-M0+ processors. Armv7-M/Armv8-M based processors provide *ETM* trace instead.
-1. **Hardware Breakpoints**: Armv6-M based devices have two HW breakpoints, while Armv7-M/Armv8-M based ones usually have six. These can be set/unset on-the-fly without stopping the processor. They are no skid: they do not execute the instruction they are set on when a match occurs. The CPU is halted before the instruction is executed.
-1. **Watchpoints** are conditional breakpoints. They stop the program when a specified value is read and/or written to a specified address or variable. There also referred to as Access Breaks in Keil documentation.
+1. [**Hardware Breakpoints**](#hardware-breakpoints): Armv6-M based devices have two HW breakpoints, while Armv7-M/Armv8-M based ones usually have six. These can be set/unset on-the-fly without stopping the processor. They are no skid: they do not execute the instruction they are set on when a match occurs. The CPU is halted before the instruction is executed.
+1. [**Watchpoints**](#watchpoints) are conditional breakpoints. They stop the program when a specified value is read and/or written to a specified address or variable. There also referred to as Access Breaks in Keil documentation.
 
 *Note:*
 
@@ -188,7 +188,7 @@ You must make sure a given peripheral register allows for and will properly reac
 
 ### Watchpoints
 
-**Watchpoints** can be thought of as conditional (access) breakpoints. Most Armv7-M and Armv8-M based processors have four data comparators. Since each watchpoint uses two comparators, you can configure two of them. The [Logic Analyzer](#logic-analyzer) uses the same comparators in its operations. This means in μVision you must have two variables free in the Logic Analyzer to use watchpoints. Currently, μVision supports only one Watchpoint.
+**Watchpoints** can be thought of as conditional (access) breakpoints. Most Armv7-M and Armv8-M based processors have four data comparators. Since each watchpoint uses two comparators, you can configure two of them. The [Logic Analyzer](#logic-analyzer) uses the same comparators in its operations. This means in μVision you must have two variables free in the Logic Analyzer to use watchpoints. Currently, μVision supports only one watchpoint.
 
 **Configure Watchpoint**
 
@@ -200,10 +200,10 @@ You must make sure a given peripheral register allows for and will properly reac
 ![Breakpoints Window](./images/watchpoint.png)
 6. Click on Close.
 7. ![Run](./images/b_uv4_run.png) **Run (F5)** the application.
-8. When `g_msTicks` equals `0x1` the program will halt. This is how a Watchpoint works.
+8. When `g_msTicks` equals `0x1` the program will halt. This is how a watchpoint works.
 9. You will see `g_msTicks` displayed with a value of 0x44 in the Watch window:  
 ![Watch Window](./images/watchpoint_watch.png)
-10. Delete the Watchpoint by selecting **Kill All** in the **Breakpoints** window or use ![Kill all Breakpoints in Current Target](./images/b_uv4_kill_all_bpnt.png) **Kill all Breakpoints in Current Target**.
+10. Delete the watchpoint by selecting **Kill All** in the **Breakpoints** window or use ![Kill all Breakpoints in Current Target](./images/b_uv4_kill_all_bpnt.png) **Kill all Breakpoints in Current Target**.
 11. Select Close.
 12. Leave Debug mode.
 
@@ -211,7 +211,7 @@ You must make sure a given peripheral register allows for and will properly reac
 
 If you put a RAM address as the expression with no value, the next read and/or write (as you selected) will cause the program to halt. This can be particularly useful in the Stack. Set an address at some limit and if the program reads or writes this address, the program stops.
 
-1. In this example a Watchpoint is created with address `0x2000_0008`.
+1. In this example a watchpoint is created with address `0x2000_0008`.
 2. Running the program, the first read or write will stop the processor.
 3. The [**Command**](https://www.keil.com/support/man/docs/uv4/uv4_db_dbg_outputwin.htm) window shows the setting of this Watchpoint and its execution including the approximate instruction location:
 ![Command Window](./images/command_wp_stop.png)
@@ -277,8 +277,7 @@ Now, create a global variable named `counter` whose value will be printed on **D
 
 In the [**Command**](https://www.keil.com/support/man/docs/uv4/uv4_db_dbg_outputwin.htm) window, you will see `Warning: Event Recorder not located in uninitialized memory!`. This can be safely ignored for the purpose of this tutorial.
 
-It can be important to preserve the EVR data located in target RAM memory in the event of a crash and/or reset. Creating and using non-initialized memory is implemented by modifying the scatter file.
-[Knowledge base article 4012](https://www.keil.com/support/docs/4012.htm) explains how to modify your project to do so.
+In general, it can be important to preserve the EVR data located in target RAM memory in the event of a crash and/or reset. Creating and using non-initialized memory is implemented by modifying the scatter file. [Knowledge base article 4012](https://www.keil.com/support/docs/4012.htm) explains how to modify your project to do so.
 
 ### Code Annotation with Event Recorder
 
@@ -336,7 +335,7 @@ In this case, you only need to unselect the Op column. The other frames do not e
 
 **Save Filter Settings**
 
-You can [save and recall](https://www.keil.com/support/man/docs/uv4/uv4_cm_er.htm) the filter settings. In the [**Command**](https://www.keil.com/support/man/docs/uv4/uv4_db_dbg_outputwin.htm) window, enter:
+You can [save and recall](https://www.keil.com/support/man/docs/uv4/uv4_cm_er.htm) the filter settings. In the [**Command**](https://www.keil.com/support/man/docs/uv4/uv4_db_dbg_outputwin.htm) window, execute:
 ```
 ER SAVE path\filename
 ER LOAD path\filename
@@ -565,7 +564,7 @@ The various statistics are displayed and updated in real-time. Timings, voltage,
 
 ### Energy Measurement without Debug
 
-The CoreSight debug components consume some amount of power. This will be reflected in the System Analyzer window. To be able to measure the real-life power without a debug connection, a specific debug mode is available. In this more, you will not be able to relate the waveforms with your code. The effects will be most pronounced during processor Sleep and WAIT states when the current drops to very low values.
+The CoreSight debug components consume some amount of power. This will be reflected in the **System Analyzer** window. To be able to measure the real-life power without a debug connection, a specific debug mode is available. In this more, you will not be able to relate the waveforms with your code. The effects will be most pronounced during processor Sleep and WAIT states when the current drops to very low values.
 
 1. **Stop a Debug Session (Ctrl+F5)** to leave the µVision debugger.
 1. Go to ![Energy Measurement](./images/b_uv4_energy.png) **Debug - Energy Measurement without Debug**.
@@ -576,7 +575,7 @@ The CoreSight debug components consume some amount of power. This will be reflec
 
 ## ETM Trace
 
-Many Armv7-M/Armv8-M devices incorporate an Embedded Trace Macrocell (ETM) which provides instruction trace. Streaming instruction trace directly to your PC, the µVision debugger enables review of historical sequences, execution profiling, performance optimization, and code coverage analysis.
+Many Armv7-M/Armv8-M devices incorporate an **Embedded Trace Macrocell (ETM)** which provides instruction trace. When streaming instruction trace directly to your PC, the µVision debugger enables [review of historical sequences](#instruction-trace), [execution profiling](#execution-profiling), [performance optimization](#performance-analysis), and code [coverage analysis](#code-coverage).
 
 **Types of Problems that can only be found with ETM Trace**
 
@@ -613,6 +612,8 @@ For the following, you need to connect a [ULINKpro](https://www2.keil.com/mdk5/u
 10. ETM and SWV are now configured and ready to use. Click **OK** twice to return to the main μVision menu.
 
 ### Instruction Trace
+
+Instruction trace enables the review of historical data of the application execution.
 
 **Open the Trace Data Window and Confirm Trace is Working**
 
@@ -653,7 +654,7 @@ In the **Trace Data** window, you can select various types of frames to be displ
 
 - These filters are post collection.
 
-*Find a Trace Record*
+**Find a Trace Record**
 
 In the **Find a Trace Record** box, enter `bx` as shown here:  
 ![Find a Trace Record Box](./images/find_trace_record_box.png)
@@ -760,7 +761,7 @@ Code Coverage information is temporarily saved during a run and is displayed in 
 
 You can Save Code Coverage in two formats:
 
-1. In a .gcov file: In the **Command** window enter `COVERAGE GCOV module` or `COVERAGE GCOV *`.
+1. In a .gcov file: In the **Command** window execute `COVERAGE GCOV module` or `COVERAGE GCOV *`.
 2. In an ASCII file using the `log` command:
    1. `log > c:\cc\test.txt` - send Code Coverage data to this file. The specified directory must exist.
    2. `coverage asm` - provides the data for log. you can also specify a module or function.
@@ -785,7 +786,7 @@ The µVision debugger provides **Performance Analysis** with the μVision simula
 
 - Double-click on any **Function** or **Module** name and this will be highlighted in the **Disassembly** or **source code** windows.
 - Select **Show: Functions** from the pull down box and notice the difference.
-- You can reset the Performance Analyzer window by clicking on ![Performance Analyzer Reset](./images/pa_reset.png). Watch as new data is displayed in the PA window.
+- You can reset the **Performance Analyzer** window by clicking on ![Performance Analyzer Reset](./images/pa_reset.png). Watch as new data is displayed in the window.
 
 ### Execution Profiling
 
@@ -797,7 +798,7 @@ The µVision debugger provides **Performance Analysis** with the μVision simula
 4. In the left margin of the **Disassembly** and **source code** windows various time values will be displayed.
 8. Hover the cursor over a time and more information appears as in the yellow box here:  
    ![Execution Profiling](./images/ep_window.png)
-9. You can also select **Debug - Execution Profiling - Show Calls** to disply this information rather than the execution times in the left margin.
+9. You can also select **Debug - Execution Profiling - Show Calls** to display this information rather than the execution times in the left margin.
 
 **Outlining**
 
@@ -830,13 +831,13 @@ The hard fault handler exception vector is found in the startup file of your dev
 1. Using the previous example, ![Start/Stop Debug](./images/b_uv4_debug.png) **start a Debug Session (Ctrl+F5)** to enter the µVision debugger.
 2. Locate the `HardFault_Handler` in the startup_*device*.s/c file.
 3. Set a breakpoint at this point. A red circle will appear.
-4. In the **Command** window enter: `g, EventRecord2`. This puts the PC at the start of this function. `EventRecord2` returns with a `POP` instruction which we will use to create a hard fault with `LR = 0`. The assembly and sources in the Disassembly window do not always match up and this is caused by anomalies in ELF/DWARF specification. In general, scroll downwards in this window to provide the best match.
-6. Clear the **Trace Data** window by clicking on the ![Start/Stop Debug](./images/b_uv4_er_killall.png) clear trace icon. This helps clarify what is happening.
+4. In the **Command** window execute: `g, EventRecord2`. This puts the PC at the start of this function. `EventRecord2` returns with a `POP` instruction which we will use to create a hard fault with `LR = 0`. The assembly and sources in the Disassembly window do not always match up and this is caused by anomalies in ELF/DWARF specification. In general, scroll downwards in this window to provide the best match.
+6. Clear the **Trace Data** window by clicking on the ![Clear trace](./images/b_uv4_er_killall.png) clear trace icon. This helps to see what is happening.
 7. In the **Register** window, double-click on the `R14 (LR)` register and set it to `'0'`. This will cause a hard fault when the processor places `LR = 0` into the PC and tries to execute the non-existent instruction at memory location `0x0`.
 8. ![Run](./images/b_uv4_run.png) **Run (F5)** the application and almost immediately it will stop on the hard fault exception branch instruction.
 9. In the **Trace Data** window, you will find the `EventRecord2` function with the `POP` instruction at the end. When the function tried to return, the bogus value of LR caused a hard fault.
-10. The `B` instruction at the hard fault vector was not executed because CoreSight hardware breakpoints do not execute the instruction they are set to when they stop the program. They are no-skid breakpoints.
-11. ![Step into](./images/b_uv4_stepinto.png) **Step (F11)** once. You will now see the hard fault branch as shown in the bottom screen:  
+1. The `B` instruction at the hard fault vector was not executed because CoreSight hardware breakpoints do not execute the instruction they are set to when they stop the program. They are no-skid breakpoints.
+1. ![Step into](./images/b_uv4_stepinto.png) **Step (F11)** once. You will now see the hard fault branch as shown in the bottom screen:  
 ![Trace Data Window with Hard Fault Handler](./images/trace_data_window_w_hf.png)
 
 This example clearly shows how quickly ETM trace can help debug program flow bugs.
