@@ -1,4 +1,4 @@
-# Generate TF-M projects
+# Create TF-M projects
 
 The purpose of this tutorial is to show you how to set up projects using the TF-M CMSIS-Pack in μVision. At the end of this tutorial, you will be able to create a project from scratch of start with an example project provided in a platform pack. This tutorial uses the NXP LPCXpresso55S69 development board as an example, but it can be recreated with any other supported Armv8-M based platform as well.
 
