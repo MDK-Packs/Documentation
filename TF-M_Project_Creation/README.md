@@ -18,6 +18,8 @@ A TF-M application always consists of at least two µVision projects. A secure p
 
 ## Create secure and non-secure projects
 
+The following shows how to create a secure and non-secure project that use certain TF-M services. In this case, the secure side uses the "Crypto" and "Internal Trusted Storage" services, while the non-secure side uses the "Crypto" service. Note that in your application you might want to use other/additional services. In that case select the appropriate software components. 
+
 ### Create a secure project
 
 Open µVision and go to **Project - New µVision Project...**. Select an empty folder and enter the project name, for example, *tfm_s*. Click Save:
@@ -76,6 +78,24 @@ Finally, before creating the actual application, you need to point the Arm Compi
 
 ![Configure scatter file](images/scatter_file.png "Configure scatter file")
 
+On the same tab, you need to set some **Misc controls** as well. There is no general rule for this, but it should look like the following:
+```
+--import_cmse_lib_out="<object_directory>/tfm_s_CMSE_Lib.o"
+--predefine="-include tfm_config.h"
+--predefine="-include tfm_config_rte.h"
+--predefine="-IRTE/_<target_name>/"
+--predefine="-IRTE/TFM_Platform/<device_name>/"
+```
+The first line is to generate the CMSE veneers which needs to be included on the non-secure project. Usually, the `<object_directory>` is `./Objects`. Note that the `<target name>` with prefix `’_’` needs to be used and also the `<device_name>`. In this particular case, add:
+
+```
+--import_cmse_lib_out="Objects/tfm_s_CMSE_Lib.o"
+--predefine="-include tfm_config.h"
+--predefine="-include tfm_config_rte.h"
+--predefine="-IRTE/_LPCXpresso55S69/"
+--predefine="-IRTE/TFM_Platform/LPC55S69JBD100_cm33_core0/"
+```
+
 **Configure the device**
 
 Finally, configure the device and its drivers using either `RTE_Device.h` file of designated configuration tools such as MCUXpresso or STM32CubeMX.
@@ -133,8 +153,7 @@ The Project window shows both projects:
 
 ## Pre-built example projects
 
-The previous sections have shown how to start TF-M based projects from scratch. If you want to start right away, use one of the out-of-the-box examples that are included in the the platform packs of the supported devices:
+The previous sections have shown how to start TF-M based projects from scratch. If you want to start right away, use one of the out-of-the-box examples that are included in the the platform packs of the supported devices as a starting point:
 
-![Pack Installer with TF-M Example Projects](images/pre_built_examples.png "Pack Installer with TF-M Example Projects")
-
-Use these examples as a starting point.
+- The **TF-M** Project Template consists of the secure and non-secure projects as described above.
+- The **TF-M with Bootloader** Project Template adds the TF-M bootloader component.
