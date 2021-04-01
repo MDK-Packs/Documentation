@@ -7,10 +7,12 @@ The purpose of this tutorial is to show you how to set up projects using the TF-
 The tutorial requires you to install the following software:
 - [Install MDK](https://www2.keil.com/mdk5/install)
 - Using **Pack Installer**, add the following software packs to your computer:
-  - ARM:TFM (min. v2.1.0)
-  - ARM:PSA (min. v1.0.0)
-  - ARM:mbedTLS (min. v1.7.0)
-  - A device specific TF-M platform pack (for example: Keil.LPC55S6x_TFM-PF).
+  - [ARM:TFM](https://www.keil.com/dd2/pack/#/ARM.TFM) (min. v2.1.0)
+  - [ARM:PSA](https://www.keil.com/dd2/pack/#/ARM.PSA) (min. v1.0.0)
+  - [ARM:mbedTLS](https://www.keil.com/dd2/pack/#/ARM.mbedTLS) (min. v1.7.0)
+  - A device specific TF-M platform pack:
+    - [Keil.LPC55S6x_TFM-PF](https://www.keil.com/dd2/pack/#/Keil.LPC55S6x_TFM-PF) (min. v1.1.0, used in this tutorial) or
+    - [Keil.STM32L5xx_TFM-PF](https://www.keil.com/dd2/pack/#/Keil.STM32L5xx_TFM-PF) (min. v1.1.0)
 
 ## Introduction
 
@@ -157,3 +159,7 @@ The previous sections have shown how to start TF-M based projects from scratch. 
 
 - The **TF-M** Project Template consists of the secure and non-secure projects as described above.
 - The **TF-M with Bootloader** Project Template adds the TF-M bootloader component.
+
+Example projects using TF-M and connecting to various cloud service providers (CSPs) are available on [keil.com/iot](https://www2.keil.com/iot).
+
+A [video](https://www.youtube.com/embed/ngLiqWilqTo?rel=0&autoplay=1) shows how to configure TF-M for the LPCxpresso55S69 development board to connect to the AWS cloud.
