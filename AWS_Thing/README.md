@@ -10,12 +10,13 @@ In the [AWS IoT console](https://console.aws.amazon.com/iotv2/), you need to cre
 
 1. Browse to the [AWS IoT console](https://console.aws.amazon.com/iotv2/).
 2. In the left navigation pane, choose **Manage**, and then choose **Things**.
-3. If you do not have any IoT things registered in your account, the **You don’t have any things yet** page is displayed. If you see this page, choose **Register** a thing.
+3. If you do not have any IoT things registered in your account, the **You don’t have any things yet** page is displayed. If you see this page, choose **Register** a thing. Otherwise, click on **Create** to create an additional thing.
 4. On the **Creating AWS IoT things** page, choose **Create a single thing**.
 5. On the **Add your device to the thing registry** page, type a name for your thing (for example `MyThing`), and then choose **Next**. You will need to add the name later to your C code.
 6. On the **Add a certificate for your thing** page, under **One-click certificate creation**, choose **Create certificate**.
 7. Download your private key and certificate by choosing the **Download** links for each. Make note of the certificate ID. You need it later to attach a policy to your certificate.
 8. Choose **Activate** to activate your certificate. Certificates must be activated prior to use.
+9. If you have already a policy that you would like to attach to this thing, click on **Attach a policy** and select the policy. If you have never created one, continue with the next step.
 
 ### Create a policy and attach it to your thing
 
@@ -31,6 +32,24 @@ In the [AWS IoT console](https://console.aws.amazon.com/iotv2/), you need to cre
 In the navigation pane of the [AWS IoT console](https://console.aws.amazon.com/iotv2/), choose **Settings**. On the **Settings** page, copy the name of your **Endpoint** (such as `a3xyzzyx.iot.us-east-2.amazonaws.com`) to have it ready for later.
 
 Now you are ready to connect your device to the AWS IoT Cloud.
+
+### Edit the downloaded files
+
+The certificate and the private key that you have previously downloaded need some editing.
+
+Change the following in the `<ID>-certificate.pem.crt` file:
+
+1. Change `-----BEGIN CERTIFICATE-----` to `"-----BEGIN CERTIFICATE-----\n\`.
+2. Append a backslash `\` to all lines.
+3. Append `n\` to the second to last line.
+4. Change `-----END CERTIFICATE-----` to `-----END CERTIFICATE-----\n"`.
+
+Change the following in the `<ID>-private.pem.key` file:
+
+1. Change `-----BEGIN RSA PRIVATE KEY-----` to `"-----BEGIN RSA PRIVATE KEY-----\n\`.
+2. Append a backslash `\` to all lines.
+3. Append `n\` to the second to last line.
+4. Change `-----BEGIN RSA PRIVATE KEY-----` to `-----BEGIN RSA PRIVATE KEY-----\n"`.
 
 ## In the Project
 
@@ -65,5 +84,5 @@ Usually, the following settings have to be done in the `IoT Client` software com
     rqXRfboQnoZsG4q5WTP468SQvvG5\n\
     -----END CERTIFICATE-----\n"
     ```
-4. `IOT_DEMO_CLIENT_CERT`: Open the file `<ID>-certificate.pem.crt` in a text editor. Edit the certificate as shown under item 3. Then, copy the content into the section.
-5. `IOT_DEMO_PRIVATE_KEY`: Open the file `<ID>-private.pem.key` in a text editor. Edit the key as shown under item 3. Then, copy the content into the section.
+4. `IOT_DEMO_CLIENT_CERT`: Open the changed file `<ID>-certificate.pem.crt` and copy the content into the section.
+5. `IOT_DEMO_PRIVATE_KEY`: Open the changed file `<ID>-private.pem.key` and copy the content into the section.
