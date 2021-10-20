@@ -49,7 +49,7 @@ Change the following in the `<ID>-private.pem.key` file:
 1. Change `-----BEGIN RSA PRIVATE KEY-----` to `"-----BEGIN RSA PRIVATE KEY-----\n\`.
 2. Append a backslash `\` to all lines.
 3. Append `n\` to the second to last line.
-4. Change `-----BEGIN RSA PRIVATE KEY-----` to `-----BEGIN RSA PRIVATE KEY-----\n"`.
+4. Change `-----END RSA PRIVATE KEY-----` to `-----END RSA PRIVATE KEY-----\n"`.
 
 ## In the Project
 
