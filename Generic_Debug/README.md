@@ -5,36 +5,37 @@ The purpose of this tutorial is to introduce you to the powerful debug features 
 ## Why use Arm Keil MDK?
 
 Arm Keil MDK provides these features particularly suited for Arm Cortex-M processor based devices:
-1. [μVision IDE](https://www.keil.com/uvision) with integrated editor and debugger, flash programmer and the Arm compiler toolchain.
+1. [μVision IDE](https://developer.arm.com/documentation/101407/latest/User-Interface/uVision-GUI?lang=en) with integrated editor and debugger, flash programmer and the Arm compiler toolchain.
 1. Support for silicon vendor configuration tools.
 1. Best-in-class [Arm Compiler 6](https://developer.arm.com/tools-and-software/embedded/arm-compiler) (based on open-source LLVM) is included. GCC can be added manually.
-1. [Dynamic syntax checking](https://www.keil.com/support/man/docs/uv4/uv4_ui_dynsyntax.htm) on C/C++ source lines.
-1. [MDK-Middleware](https://www2.keil.com/mdk5/middleware) contains software stacks for TCP/IP networking, USB host and device, Flash file systems, and graphics.
-1. Professional grade [Keil RTX5](https://www2.keil.com/mdk5/cmsis/rtx) included.
+1. [Dynamic syntax checking](https://developer.arm.com/documentation/101407/latest/User-Interface/Using-the-Editor/Dynamic-Syntax-Checking?lang=en) on C/C++ source lines.
+1. [MDK-Middleware](https://developer.arm.com/Tools%20and%20Software/MDK-Middleware) contains software stacks for TCP/IP networking, USB host and device, Flash file systems, and graphics.
+1. Professional grade [Keil RTX5](https://developer.arm.com/Tools%20and%20Software/RTX5%20RTOS) included.
 1. [Event Recorder](#debugging-using-event-recorder) for low-impact source code annotations.
-1. Components for [functional safety](https://www2.keil.com/mdk5/safety/): compiler safety qualification kit and functional safety run-time system.
-1. CoreSight [**Serial Wire Viewer (SWV)**](https://www2.keil.com/coresight/#swv).
+1. Components for [functional safety](https://developer.arm.com/Tools%20and%20Software/FuSa%20Run-Time%20System): compiler safety qualification kit and functional safety run-time system.
+1. CoreSight [**Serial Wire Viewer (SWV)**](https://developer.arm.com/Architectures/CoreSight%20Architecture).
 1. [ETM trace](#etm-trace) for [instruction trace](#instruction-trace), [code coverage](#code-coverage), [performance analysis](#performance-analysis), and [execution profiling](#execution-profiling).
-1. Choice of debug adapters: [ULINK family](https://www2.keil.com/mdk5/ulink), Segger J-Link, ST-Link, NXP MCU-LINK, and other third party adapters.
+1. Choice of debug adapters: [ULINK family](https://developer.arm.com/Tools%20and%20Software/ULINKpro), Segger J-Link, ST-Link, NXP MCU-LINK, and other third party adapters.
 
 ## CoreSight Definitions
 
-1. [**JTAG**](https://www2.keil.com/coresight/#jtag): Provides access to the CoreSight debugging module located on the Cortex processor. It uses 4 to 5 pins.
-1. [**Serial Wire Debug (SWD)**](https://www2.keil.com/coresight/#swd) is a two pin alternative to *JTAG* and has about the same capabilities except boundary scan is not possible.
-1. [**Serial Wire Viewer (SWV)**](https://www2.keil.com/coresight/#swv) is a trace capability providing display of data reads/writes, exceptions, program counter (PC) samples and `printf`. SWV must use SWD because the JTAG signal TDO shares the same pin as SWO. Alternatively, SWV data can come out of the *Trace Port*.
-1. **Serial Wire Output (SWO)** pin provides access to *SWV* frames. It shares the JTAG signal TDO.
-1. **Trace Port** is a 4-bit port that [ULINKpro](https://www2.keil.com/mdk5/ulink/ulinkpro) uses to collect *ETM* frames and optionally SWV (rather than SWO pin).
-1. **Debug Access Port (DAP)** is a component of the Arm CoreSight debugging module that is accessed via the JTAG or SWD port. One of the features of the DAP are the memory read and write accesses which provide on-the-fly memory accesses without the need for processor core intervention. μVision uses the DAP to update Memory, Watch, Peripheral and RTOS kernel awareness windows while the processor is running. You can also modify variable values on the fly. No CPU cycles are used, the program can be running and no code stubs are needed. You do not need to configure or activate DAP. μVision configures DAP when you select a function that uses it. Do not confuse this with CMSIS-DAP which is an Arm on-board debug adapter standard.
+1. **JTAG**: Provides access to the [CoreSight](https://developer.arm.com/Architectures/CoreSight Architecture) debugging module located on the Cortex processor. It uses 4 to 5 pins.
+1. [**Serial Wire Debug (SWD)**](https://developer.arm.com/documentation/kan339/latest/) is a two pin alternative to *JTAG* and has about the same capabilities except boundary scan is not possible.
+1. [**Serial Wire Viewer (SWV)**](https://developer.arm.com/documentation/kan339/latest/) is a trace capability providing display of data reads/writes, exceptions, program counter (PC) samples and `printf`. SWV must use SWD because the JTAG signal TDO shares the same pin as SWO. Alternatively, SWV data can come out of the *Trace Port*.
+1. [**Serial Wire Output (SWO)**](https://developer.arm.com/documentation/ddi0314/h/Serial-Wire-Output?lang=en) pin provides access to *SWV* frames. It shares the JTAG signal TDO.
+1. **Trace Port** is a 4-bit port that [ULINKpro](https://developer.arm.com/Tools and Software/ULINKpro) uses to collect *ETM* frames and optionally SWV (rather than SWO pin).
+1. [**Debug Access Port (DAP)**](https://developer.arm.com/documentation/ddi0314/h/Debug-Access-Port?lang=en) is a component of the Arm CoreSight debugging module that is accessed via the JTAG or SWD port. One of the features of the DAP are the memory read and write accesses which provide on-the-fly memory accesses without the need for processor core intervention. μVision uses the DAP to update [Memory](https://developer.arm.com/documentation/101407/latest/Debugging/Debug-Windows-and-Dialogs/Memory-Window?lang=en), [Watch](https://developer.arm.com/documentation/101407/latest/Debugging/Debug-Windows-and-Dialogs/Watch-Window?lang=en), [System Viewer](https://developer.arm.com/documentation/101407/latest/Debugging/Debug-Windows-and-Dialogs/System-Viewer?lang=en) and [RTOS kernel awareness](https://developer.arm.com/documentation/101407/latest/Debugging/Debug-Windows-and-Dialogs/Event-Recorder/Event-Recorder-Window?lang=en) windows while the processor is running. You can also modify variable values on the fly. No CPU cycles are used, the program can be running and no code stubs are needed. You do not need to configure or activate DAP. μVision configures DAP when you select a function that uses it. Do not confuse this with CMSIS-DAP which is an Arm on-board debug adapter standard.
 1. **Instrumentation Trace Macrocell (ITM)** can be used for `printf` type debugging.
-1. [**Embedded Trace Macrocell (ETM)**](https://www2.keil.com/coresight/#etm) displays all instructions executed by the processor. This enables code coverage and performance analysis. ETM is output on the Trace Port (requires a special 20-pin CoreSight connector) or accessible in the *ETB* (no code coverage or performance analysis support).
-1. **Embedded Trace Buffer (ETB)** is a small amount of internal RAM used as an ETM trace buffer. This trace does not need a specialized debug adapter such as a ULINKpro. ETB runs as fast as the core but is not available on all processors. See your specific datasheet.
+1. [**Embedded Trace Macrocell (ETM)**](https://developer.arm.com/documentation/ddi0314/h/CoreSight-Trace-Sources/Embedded-Trace-Macrocells?lang=en) displays all instructions executed by the processor. This enables code coverage and performance analysis. ETM is output on the Trace Port (requires a special 20-pin CoreSight connector) or accessible in the *ETB* (no code coverage or performance analysis support).
+1. [**Embedded Trace Buffer (ETB)**](https://developer.arm.com/documentation/ddi0314/h/Embedded-Trace-Buffer?lang=en) is a small amount of internal RAM used as an ETM trace buffer. This trace does not need a specialized debug adapter such as a ULINKpro. ETB runs as fast as the core but is not available on all processors. See your specific datasheet.
 1. **Micro Trace Buffer (MTB)** is a portion of the device's internal user RAM that is used for an instruction trace buffer. Only available on Cortex-M0+ processors. Armv7-M/Armv8-M based processors provide *ETM* trace instead.
 1. [**Hardware Breakpoints**](#hardware-breakpoints): Armv6-M based devices have two HW breakpoints, while Armv7-M/Armv8-M based ones usually have six. These can be set/unset on-the-fly without stopping the processor. They are no skid: they do not execute the instruction they are set on when a match occurs. The CPU is halted before the instruction is executed.
-1. [**Watchpoints**](#watchpoints) are conditional breakpoints. They stop the program when a specified value is read and/or written to a specified address or variable. There also referred to as Access Breaks in Keil documentation.
+1. [**Watchpoints**](#watchpoints) are conditional breakpoints. They stop the program when a specified value is read and/or written to a specified address or variable. There also referred to as [Access Breaks](https://developer.arm.com/documentation/101407/latest/Debug-Commands/BreakAccess?lang=en) in Keil documentation.
 
 *Note:*
 
-Armv6-M based devices may have only features 2) and 4) plus 10), 11), and 12) implemented. Armv7-M based devices can have all features listed implemented. It is possible some processors have all features except ETM Instruction trace and the trace port. Consult your specific datasheet.
+- [Armv6-M](https://developer.arm.com/documentation/ddi0419/) based devices may have only features 2) and 4) plus 10), 11), and 12) implemented.
+- [Armv7-M](https://developer.arm.com/documentation/ddi0403/) and [Armv8-M](https://developer.arm.com/documentation/ddi0553/br/?lang=en) based devices can have all features listed implemented. It is possible some processors have all features except ETM Instruction trace and the trace port. Consult your specific datasheet.
 
 ## Basic Run/Stop Debugging
 
@@ -62,9 +63,10 @@ Most of the following debug tips will work in µVision using the built-in simula
 - You can set/unset hardware breakpoints with μVision while the program is running or stopped.
 - Arm hardware breakpoints are no skid. They do not execute nor change the instruction they are set to.
 
-*Note:*
+*Notes:*
 
 - Sometimes the compiler will optimize out code. Breakpoints cannot be set on this code as evidenced by the lack of the grey blocks. Setting the compiler to an optimization level of `-O0` will usually help.
+- A hardware breakpoint does not execute the instruction it is set to. Arm CoreSight breakpoints are no-skid. Your instructions in flash are not substituted or modified. Your flash contents are not changed. There is no intrusion to hardware or your program by Arm hardware breakpoints. These are important features for efficient software development.
 
 #### Manage Breakpoints
 
