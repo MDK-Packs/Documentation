@@ -553,7 +553,7 @@ An Arm Keil [ULINKplus debug adapter](https://developer.arm.com/Tools%20and%20So
 
 *Tip:*
 
-- For details on how to connect the ULINKplus to your board to measure power, refer to the [quickstart page](https://www2.keil.com/mdk5/ulink/ulinkplus/quickstart) and the [documentation](https://developer.arm.com/documentation/101636/latest/Power-Measurement?lang=en).
+- For details on how to connect the ULINKplus to your board to measure power, refer to the [documentation](https://developer.arm.com/documentation/101636/latest/Power-Measurement?lang=en).
 
 Once the hardware connection is done, you need to configure the debug adapter.
 
