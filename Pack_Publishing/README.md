@@ -2,6 +2,9 @@
 
 This document describes how to publish a pack on various platforms.
 
+1. [Hosting on GitHub](#hosting-on-github)
+1. [Self-hosted Pack](#self-hosted-pack)
+
 ## Hosting on GitHub
 
 This section explains how to host a pack using a GitHub repository.
