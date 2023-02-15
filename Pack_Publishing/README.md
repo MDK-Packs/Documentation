@@ -37,7 +37,7 @@ The following shows the PIDX file for the repo.
   <url>https://github.com/MyVendor/packindex/raw/main/</url>
   <timestamp>2023-02-09T12:00:00</timestamp>
   <pindex>
-    <pdsc url="https://github.com/MyVendor/packindex/raw/main/" vendor="MyVendor" name="mypack" version="1.0.0"/>
+    <pdsc url="https://github.com/MyVendor/packindex/raw/main/" vendor="MyVendor" name="mypack" version="0.9.0"/>
     <pdsc url="https://github.com/MyVendor/packindex/raw/main/" vendor="MyVendor" name="myotherpack" version="1.1.3"/>
     <pdsc url="https://github.com/MyVendor/packindex/raw/main/" vendor="MyVendor" name="mysdkpack" version="2.0.4"/>
   </pindex>
@@ -60,9 +60,9 @@ tools, you need to add that release location tot the PDSC file.
 
 Once you create a release of a pack, you need to:
 
-- create a release tag
-- assemble the pack
-- Store the pack as an asset in the release
+- create a release tag.
+- assemble the pack.
+- Store the pack as an asset in the release.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -74,13 +74,35 @@ Once you create a release of a pack, you need to:
   <supportContact>info@myvendor.com</supportContact>
   <license>License.txt</license>
     <releases>
-    <release version="1.0.0" tag="v1.0.0" url=”https://github.com/MyVendor/mypack/releases/download/v1.0.0/MyVendor.mypack.1.0.0.pack”  date="2023-02-09">
+    <release version="1.0.0" tag="v1.0.0" url=”https://github.com/MyVendor/mypack/releases/download/v1.0.0/MyVendor.mypack.1.0.0.pack”  date="2023-02-15">
      Initial release.
     </release>
     <release version="0.9.0" tag="v0.9.0" url=”https://github.com/MyVendor/mypack/releases/download/v0.9.0/MyVendor.mypack.0.9.0.pack”  date="2023-01-17">
      Pre-release.
     </release>
 ```
+
+#### Announcing the change
+
+Once you have generated the pack file and stored it in the release as an asset, you need to add the new version to the PIDX file in the `packindex` repository and replace the old PDSC file there.
+
+Change the PIDX file to:
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<index schemaVersion="1.0.0" xs:noNamespaceSchemaLocation="PackIndex.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance">
+  <vendor>MyVendor</vendor>
+  <url>https://github.com/MyVendor/packindex/raw/main/</url>
+  <timestamp>2023-02-15T12:00:00</timestamp>
+  <pindex>
+    <pdsc url="https://github.com/MyVendor/packindex/raw/main/" vendor="MyVendor" name="mypack" version="1.0.0"/>
+    <pdsc url="https://github.com/MyVendor/packindex/raw/main/" vendor="MyVendor" name="myotherpack" version="1.1.3"/>
+    <pdsc url="https://github.com/MyVendor/packindex/raw/main/" vendor="MyVendor" name="mysdkpack" version="2.0.4"/>
+  </pindex>
+</index>
+```
+
+Save the updated PDSC file (including reversion 1.0.0) next to the `MyVendor.pidx` file in the `packindex` repo. After the next nightly run of the indexing service, the updated pack is available to all users.
 
 ## Self-hosted Pack
 
