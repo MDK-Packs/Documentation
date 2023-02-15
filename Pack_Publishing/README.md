@@ -102,7 +102,7 @@ Change the PIDX file to:
 </index>
 ```
 
-Save the updated PDSC file (`MyVendor.mypack.pdsc` including reversion 1.0.0) next to the `MyVendor.pidx` file in the `packindex` repo. After the next nightly run of the indexing service, the updated pack is available to all users.
+Save the updated PDSC file (`MyVendor.mypack.pdsc` including release version 1.0.0) next to the `MyVendor.pidx` file in the `packindex` repo. After the next nightly run of the indexing service, the updated pack is available to all users.
 
 ## Self-hosted Pack
 
