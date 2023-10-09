@@ -148,8 +148,8 @@ In CMSIS 6, assembly-based startup code is deprecated. You must move your `start
 
 ```xml
           <!-- startup / system / scatter files -->
-          <file category="sourceC"      name="Device/Source/startup_device.c"      version="1.0.1" attr="config"/>
-          <file category="linkerScript" name="Device/ARMCA5/Config/device_ac6.sct" version="1.0.0" attr="config" condition="ARMCC6"/>
+          <file category="sourceC"      name="path/to/startup_device.c"      version="1.0.1" attr="config"/>
+          <file category="linkerScript" name="path/to/device_ac6.sct" version="1.0.0" attr="config" condition="ARMCC6"/>
 ```
 
 2. Finally, create a new pack with the updated device support so that you can migrate the projects to Arm Compiler 6.
