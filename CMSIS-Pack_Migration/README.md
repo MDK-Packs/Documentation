@@ -117,11 +117,11 @@ In CMSIS 6, assembly-based startup code is deprecated. You must move your `start
    Translates to:
    
    ```c
-   #IF (USE_CHIP=SOME_CHIP)
+   #if (USE_CHIP=SOME_CHIP)
    WDT_IRQHandler,
-   #ELSE
+   #else
    0,
-   #ENDIF
+   #endif
    ```
 6. If you have entries for stack and heap size in the assembly startup file, save these and add them in the next step to the now mandatory scatter file.
 
