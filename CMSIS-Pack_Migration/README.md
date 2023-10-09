@@ -163,7 +163,7 @@ The following assumes that your example is still using Arm Compiler 5. Thus, the
    ![Set default compiler version 6](./images/default_ac6.png)
 1. Go to the **C/C++ [AC6]** tab and set the appropriate defines. It is also good practice to set the compiler warnings to *AC5-like Warnings* as the new compiler is much more strict and may overwhelm with warning messages:
    ![Compiler tab](./images/c_cpp_ac6.png)
-1. Copy the new scatter file from the device family pack into the project. Check if the project needs specific settings (you can compare against the original scatter file). Once done, go to the **Linker** tab and remove the checkmark at *Use Memory Layout from Target Dialog* and set the path to the new scatter file:
+1. Copy the new scatter file from the device family pack into the project. Check if the project needs specific settings (you can compare against the original scatter file). Once done, go to the **Linker** tab and remove the checkmark at *Use Memory Layout from Target Dialog* and set the path to the new scatter file:  
    ![Scatter file in the Linker tab](./images/linker_tab.png)
 1. Once done, build the project to verify the correct operation. Afterwards, do not forget to add the updated example project to the CMSIS-Pack to make it available to your customers.
 
