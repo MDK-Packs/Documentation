@@ -1,6 +1,6 @@
 # CMSIS-Pack Migration Guide
 
-This hands-on guide helps silicon vendors to migrate their CMSIS-Packs from legacy technologies like CMSIS v5 and Arm Compiler v5 to the latest and greatest.
+This hands-on guide helps silicon vendors to migrate their CMSIS-Packs from legacy technologies like CMSIS v5 and Arm Compiler v5 to CMSIS v6 and Arm Compiler for Embedded v6.
 
 Migrating includes two major tasks. First, you need to switch the [device support](#device-support) from assembly based startup files to C-based startup files. Also, you need to create scatter files as the C-based startup files rely on scatter files being present. Second, you need to convert the [example projects](#example-migration) to the new device support.
 
@@ -12,7 +12,7 @@ This section explains how to move the device support from CMSIS v5 to CMSIS v6.
 
 In CMSIS 6, assembly-based startup code is deprecated. You must move your `startup_device.s` files to `startup_device.c`. This sections explains the steps that you need to follow.
 
-1. Copy the exemplary `startup_ARMCMx.c` file from the [CMSIS-DFP repo](https://github.com/ARM-software/CMSIS-DFP) into your device support repo. In this hands-on example, a Cortex-M4-based device is used ([startup_ARMCM4.c](https://github.com/ARM-software/CMSIS-DFP/blob/main/Device/ARMCM4/Source/startup_ARMCM4.c)).
+1. Copy the exemplary `startup_ARMCMx.c` file from the [CMSIS-DFP repo](https://github.com/ARM-software/CMSIS-DFP) into your device support repo. In this hands-on example, a Cortex-M4-based device is used (thus, the [startup_ARMCM4.c](https://github.com/ARM-software/CMSIS-DFP/blob/main/Device/ARMCM4/Source/startup_ARMCM4.c) is taken from CMSIS-DFP/Device/ARMCM4/source).
 1. Copy all the interrupt handler names and wrap them into `void handler_name (void) __attribute__ ((weak, alias("Default_Handler")));`. Place them around line 58 of the template file.
 
    **Code Example**
@@ -167,6 +167,4 @@ The following assumes that your example is still using Arm Compiler 5. Thus, the
    ![Scatter file in the Linker tab](./images/linker_tab.png)
 1. Once done, build the project to verify the correct operation. Afterwards, do not forget to add the updated example project to the CMSIS-Pack to make it available to your customers.
 
-There are two documents available from Arm that help you in case you encounter any problems when migrating to Arm Compiler 6:
-- [Migrate from ARM C/C++ Compiler 5 to ARM Compiler 6](https://developer.arm.com/documentation/kan298/latest) is a hands-on application note that explains all settings in µVision that are required for a successful conversion.
-- Technical details are explained in the [Arm Compiler for Embedded Migration and Compatibility Guide](https://developer.arm.com/documentation/100068/latest/Migrating-from-Arm-Compiler-5-to-Arm-Compiler-for-Embedded-6).
+The [Arm Compiler for Embedded Migration and Compatibility Guide](https://developer.arm.com/documentation/100068/latest/Migrating-from-Arm-Compiler-5-to-Arm-Compiler-for-Embedded-6) helps you in case you encounter any problems when migrating to Arm Compiler 6.
