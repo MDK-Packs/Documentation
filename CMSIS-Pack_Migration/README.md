@@ -2,7 +2,7 @@
 
 This hands-on guide helps silicon vendors to migrate their CMSIS-Packs from legacy technologies like CMSIS v5 and Arm Compiler v5 to CMSIS v6 and Arm Compiler for Embedded v6.
 
-Migrating includes two major tasks. First, you need to switch the [device support](#device-support) from assembly based startup files to C-based startup files. Also, you need to create scatter files as the C-based startup files rely on scatter files being present. Second, you need to convert the [example projects](#example-migration) to the new device support.
+Migrating includes two major tasks. First, you need to switch the [device support](#device-support) from assembly based startup files to C-based startup files. Also, you need to create scatter files to [place the stack and heap](https://developer.arm.com/documentation/101754/latest/armlink-Reference/Scatter-loading-Features/The-scatter-loading-mechanism/Placing-the-stack-and-heap-with-a-scatter-file). Second, you need to convert the [example projects](#migration-of-example-projects) to the new device support.
 
 ## Device support
 
@@ -154,7 +154,7 @@ In CMSIS 6, assembly-based startup code is deprecated. You must move your `start
 
 2. Finally, create a new pack with the updated device support so that you can migrate the projects to Arm Compiler 6.
 
-## Example migration
+## Migration of example projects
 
 The following assumes that your example is still using Arm Compiler 5. Thus, the project first needs to be migrated to Arm Compiler 6 before it can be automatically converted to the new CMSIS-Toolbox project standard (csolution/cproject).
 
