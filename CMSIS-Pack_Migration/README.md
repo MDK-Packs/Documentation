@@ -168,3 +168,7 @@ The following assumes that your example is still using Arm Compiler 5. Thus, the
 1. Once done, build the project to verify the correct operation. Afterwards, do not forget to add the updated example project to the CMSIS-Pack to make it available to your customers.
 
 The [Arm Compiler for Embedded Migration and Compatibility Guide](https://developer.arm.com/documentation/100068/latest/Migrating-from-Arm-Compiler-5-to-Arm-Compiler-for-Embedded-6) helps you in case you encounter any problems when migrating to Arm Compiler 6.
+
+## Further reading
+
+Refer to the [Create a Device Family Pack - Hands-On Example](https://github.com/Open-CMSIS-Pack/DFP-Pack-HandsOn) for more information on how to create a device family pack.
