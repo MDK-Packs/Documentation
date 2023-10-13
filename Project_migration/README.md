@@ -61,7 +61,7 @@ This section shows the most common errors and shows possible resolutions.
 
 ### Missing device
 
-The following error occurs when you try to migrate a project to CMSIS v6, but you have not installed the CMSIS_DFP_ pack:
+The following error occurs when you try to migrate a project to CMSIS v6, but you have not installed the CMSIS_DFP pack:
 
 ![Requested device not found for target](./images/Device_missing.png)
 
@@ -88,8 +88,12 @@ The following warning is shown in the Validation Output window when you try to m
 As the components from the Keil.ARM_Compiler pack do not have 1:1 replacements, you need to deselect the old components and select the replacements from the two new packs (ARM.Compiler and ARM.CMSIS-View).
 
 1. Compiler:EventRecorder migration
+
    Deselect the `Compiler:Event Recorder` component and select the `CMSIS-View:Event Recorder` component:
+
    ![Event Recorder migration](./images/EventRecorder_migration.png)
 1. Compiler:I/O migration
+
    Deselect any component of `Compiler:I/O` and select the corresponding `CMSIS-View:I/O` component:
+
    ![I/O migration](./images/IO_migration.png)
