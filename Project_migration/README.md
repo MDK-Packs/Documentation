@@ -102,4 +102,4 @@ As the components from the Keil.ARM_Compiler pack do not have 1:1 replacements, 
 
 The following section is only relevant to users of Keil MDK v5. It explains how to migrate from a uvprojx-based project file to the new Open-CMSIS-Pack csolution project file format.
 
-Use [Keil Studio](https://learn.arm.com/install-guides/keilstudio_vs/) to automatically convert projects to csolution format. Once you open a folder containing a uvprojx file in VS Code, the conversion tool will automatically generate a csolution project. Please review settings for target and build types.
+The learning path [Convert uvprojx-based projects to csolution](https://learn.arm.com/learning-paths/microcontrollers/uvprojx-conversion/) explains how to import, convert, and build uvprojx-based projects in [Keil Studio for VS Code](https://learn.arm.com/install-guides/keilstudio_vs/). It also shows how to convert and build uvprojx-based projects on the command line.
