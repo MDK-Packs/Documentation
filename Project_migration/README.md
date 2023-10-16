@@ -97,3 +97,9 @@ As the components from the Keil.ARM_Compiler pack do not have 1:1 replacements, 
    Deselect any component of `Compiler:I/O` and select the corresponding `CMSIS-View:I/O` component:
 
    ![I/O migration](./images/IO_migration.png)
+
+## Project file migration
+
+The following section is only relevant to users of Keil MDK v5. It explains how to migrate from a uvprojx-based project file to the new Open-CMSIS-Pack csolution project file format.
+
+Use [Keil Studio](https://learn.arm.com/install-guides/keilstudio_vs/) to automatically convert projects to csolution format. Once you open a folder containing a uvprojx file in VS Code, the conversion tool will automatically generate a csolution project. Please review settings for target and build types.
