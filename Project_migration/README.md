@@ -24,7 +24,7 @@ For a successful migration, please install the following packs on your system.
 - [ARM.CMSIS_DFP.1.0.0.pack](https://www.keil.com/pack/ARM.CMSIS_DFP.1.0.0.pack)
 - [ARM.CMSIS-RTX.1.0.0.pack](https://www.keil.com/pack/ARM.CMSIS-RTX.1.0.0.pack)
 
-### Migrating components from Keil.ARM_Cmpiler pack
+### Migrating components from Keil.ARM_C0mpiler pack
 
 - [ARM.CMSIS-View.1.0.0.pack](https://www.keil.com/pack/ARM.CMSIS-View.1.0.0.pack)
 - [ARM.CMSIS_Compiler.1.0.0.pack](https://www.keil.com/pack/ARM.CMSIS_Compiler.1.0.0.pack)
