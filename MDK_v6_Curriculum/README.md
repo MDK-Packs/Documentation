@@ -34,12 +34,26 @@ How to start from scratch is described here for the two IDEs:
 - [Creating a project with Keil Studio](https://developer.arm.com/documentation/109350/latest/Create-new-applications/Create-a-new-solution-using-the-Keil-Studio-VS-Code-extensions).
 - [Creating a project with µVision](https://developer.arm.com/documentation/109350/latest/Create-new-applications/Create-a-new-project-using--Vision).
 
+## Using Keil Studio Cloud
+
+A learning path is available that introduces you to Keil Studio Cloud:
+
+- [Get Started with Keil Studio Cloud](https://learn.arm.com/learning-paths/microcontrollers/keilstudiocloud/)
+
 ## Debugging
 
 Debugging is an important task that every embedded developer must master. Here are a couple of pointers how to use the debugging capabilities of MDK (in this case µVision):
 
 - [Start Debugging with µVision](https://learn.arm.com/learning-paths/microcontrollers/uv_debug/)
 - [Get started with µVision Code Coverage](https://learn.arm.com/learning-paths/microcontrollers/coverage_mdk/)
+
+## Troubleshooting
+
+If you are moving from MDK or CMSIS v5 to MDK or CMSIS v6, these learning paths help you to manage the complexity:
+
+- [Migrating Projects to CMSIS v6](https://learn.arm.com/learning-paths/microcontrollers/project-migration-cmsis-v6/)
+- [Convert uvprojx-based projects to csolution](https://learn.arm.com/learning-paths/microcontrollers/uvprojx-conversion/)
+- [Migrating CMSIS-Packs to CMSIS v6](https://learn.arm.com/learning-paths/microcontrollers/pack-migration-cmsis-v6/)
 
 ## Becoming an expert
 
@@ -50,13 +64,14 @@ There is many expert knowledge around Keil MDK. The following list contains poin
 - [Get started with the CMSIS-DSP library](https://learn.arm.com/learning-paths/microcontrollers/cmsis-dsp/)
 - [Build an RTX5 RTOS application](https://learn.arm.com/learning-paths/microcontrollers/cmsis_rtx/)
 
-## Troubleshooting
+### Developing in the cloud
 
-If you are moving from MDK or CMSIS v5 to MDK or CMSIS v6, these learning paths help you to manage the complexity:
+While [Keil Studio Cloud](#using-keil-studio-cloud) is available as a cloud-native development environment, many users develop locally, but have their repositories hosted in the cloud. The floowing examples show how to develop in the cloud:
 
-- [Migrating Projects to CMSIS v6](https://learn.arm.com/learning-paths/microcontrollers/project-migration-cmsis-v6/)
-- [Convert uvprojx-based projects to csolution](https://learn.arm.com/learning-paths/microcontrollers/uvprojx-conversion/)
-- [Migrating CMSIS-Packs to CMSIS v6](https://learn.arm.com/learning-paths/microcontrollers/pack-migration-cmsis-v6/)
+- [AVH_CI_Template](https://github.com/Arm-Examples/AVH_CI_Template) - A CI Template for unit test automation.
+- [AVH-Virtual-Peripherals](https://github.com/Arm-Examples/AVH-Virtual-Peripherals)	- An example of AVH models and their python extension implementing virtual peripherals.
+- [AVH-VSI](https://github.com/Arm-Examples/AVH-VSI)	- A simple Hello World example using VSI interfaces.
+- [AVH-Hello](https://github.com/Arm-Examples/AVH-Hello) - A CI project with a test matrix that uses GitHub Actions on a GitHub-hosted runner.
 
 ## Tips and tricks
 
