@@ -4,9 +4,9 @@ This pages contains a list of resources that help you to learn about MDK v6 and 
 
 ## MDK v6 contents
 
-Previously, the term "MDK" was often equally sued as the term "µVision". Until MDK v5, µVision with a single installable EXE file for Windows that came with the IDE, build tools, models, as well as device and board support. Thus, MDK and µVision meant essentially the same.
+Previously, the term "MDK" was often equally used as the term "µVision". Until MDK v5, µVision was a single installable EXE file for Windows that came with the IDE, build tools, and models. Device and board support was added by installing the approrpriate packs. Thus, MDK and µVision meant essentially the same.
 
-MDK v6 is different: apart from the tools mentioned above, it also contains Keil Studio, a set of VS Code extensions that can be used to achieve the same goals as with the old IDE. The big advantage is the support of other host operating systems, as VS Code is available on *Linux*, *macOS*, and *Windows*.
+MDK v6 is different: apart from the tools mentioned above (including µVsion), it also contains Keil Studio, a set of VS Code extensions that can be used to achieve the same goals as with the old IDE. The big advantage is the support of other host operating systems, as VS Code is available on *Linux*, *macOS*, and *Windows*. With the exception of AVH FVP models, all tools from Arm are available for these operating systems as well.
 
 Refer to the [comparison table](https://developer.arm.com/Tools%20and%20Software/Keil%20MDK#Editions) to understand the MDK v6 package contents.
 
@@ -16,7 +16,7 @@ All options for installing MDK v6, a set of command line and GUI tools, is expla
 
 ### Deviations
 
-You might not want ot use the official way to install MDK v6 components. There is an alternative way to do so that is described in the [Install tools on the command line using vcpkg](https://learn.arm.com/learning-paths/microcontrollers/vcpkg-tool-installation/) learning path.
+You might not want to use the official way to install MDK v6 components. There is an alternative way to do so that is described in the [Install tools on the command line using vcpkg](https://learn.arm.com/learning-paths/microcontrollers/vcpkg-tool-installation/) learning path.
 
 ## Licensing Arm tools
 
@@ -25,7 +25,7 @@ Some Arm tools require a license to be present. For an easy start, you can use t
 - [Activate your product using an activation code](https://developer.arm.com/documentation/102516/latest/Activate-and-deactivate-your-product-license/Activate-your-product-using-an-activation-code).
 - [Activate your product using a license server](https://developer.arm.com/documentation/102516/latest/Activate-and-deactivate-your-product-license/Activate-your-product-using-a-license-server).
 
-if you want to use an older version of MDK or a legacy tools, [backwards compatibility](https://developer.arm.com/documentation/102516/latest/User-based-licensing-overview/Backwards-compatibility) helps you to generate node-locked licenses for your PC.
+If you want to use an older version of MDK or a legacy tools, [backwards compatibility](https://developer.arm.com/documentation/102516/latest/User-based-licensing-overview/Backwards-compatibility) helps you to generate node-locked licenses for your PC.
 
 ## Creating applications
 
@@ -52,7 +52,7 @@ There is many expert knowledge around Keil MDK. The following list contains poin
 
 ## Troubleshooting
 
-If you are moving from MDK or CMSIS v5 to MDK or CMSI v6, these learning paths help you to manage the complexity:
+If you are moving from MDK or CMSIS v5 to MDK or CMSIS v6, these learning paths help you to manage the complexity:
 
 - [Migrating Projects to CMSIS v6](https://learn.arm.com/learning-paths/microcontrollers/project-migration-cmsis-v6/)
 - [Convert uvprojx-based projects to csolution](https://learn.arm.com/learning-paths/microcontrollers/uvprojx-conversion/)
