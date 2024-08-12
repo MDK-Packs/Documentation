@@ -2,6 +2,20 @@
 
 This pages contains a list of resources that help you to learn about MDK v6 and understand its basic components. If you go through the material step-by-tep, you should be able to master any embedded software development project with MDK v6. It also contains material about CMSIS v6 as you cannot imagine the one without the other.
 
+**Table of contents**
+
+| Section | What you will learn |
+|---------|---------------------|
+| [MDK v6 contents](#mdk-v6-contents) | What is MDK v6? |
+| [Getting started/installation](#getting-startedinstallation) | How to install the tools in different ways |
+| [Licensing Arm tools](#licensing-arm-tools) | How to add a license to your tools |
+| [Creating applications](#creating-applications) | How to create your first project |
+| [Using Keil Studio Cloud](#using-keil-studio-cloud) | How to use the cloud-native IDE |
+| [Debugging](#debugging) | Find errors in your project quickly |
+| [Troubleshooting](#troubleshooting) | Manage obstacles that you might encounter |
+| [Becoming an expert](#becoming-an-expert) | Deep-dive into sophisticated topics, including could-based development |
+| [Tips and tricks](#tips-and-tricks) | Further content that will help you mastering the tools |
+
 ## MDK v6 contents
 
 Previously, the term "MDK" was often equally used as the term "µVision". Until MDK v5, µVision was a single installable EXE file for Windows that came with the IDE, build tools, and models. Device and board support was added by installing the approrpriate packs. Thus, MDK and µVision meant essentially the same.
