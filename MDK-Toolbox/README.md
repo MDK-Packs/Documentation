@@ -4,6 +4,7 @@ The MDK-Toolbox consists of the following utilities:
 
 - **FCARM**, a file converter that reformats web files into a single C source file which is then included and compiled into a project.
 - **ElfDwT**, a command-line utility that computes and writes a signature into the application image file.
+- **uv2csolution**, a command-line utility that converts µVision projects to csolution format.
 - **Mbed TLS/cert_write**, an application that signs a certificate signing request, or self-signs a certificate.
 - **Mbed TLS/gen_key**, an application that generates a key for any of the supported public-key algorithms (RSA or ECC).
 
@@ -40,6 +41,7 @@ The documentation for the MDK-Toolbox utilities can found here:
 
 - [FCARM](https://developer.arm.com/documentation/101407/latest/Appendix/H--File-Converter-FCARM)
 - [ElfDwT](https://developer.arm.com/documentation/101407/latest/Utilities/Signature-Creator-for-NXP-Cortex-M-Devices)
+- [uv2csolution](https://learn.arm.com/learning-paths/microcontrollers/uvprojx-conversion/how-to-2/)
 - [Mbed TLS/cert_write](https://mbed-tls.readthedocs.io/en/latest/kb/how-to/generate-a-self-signed-certificate/#command-to-generate-a-self-signed-certificate)
 - Mbed TLS/gen_key:
   - [RSA key pair generator](https://mbed-tls.readthedocs.io/en/latest/kb/cryptography/rsa-key-pair-generator/)
@@ -50,5 +52,5 @@ The documentation for the MDK-Toolbox utilities can found here:
 
 The MDK-Toolbox utilities are provided under the following license terms:
 
-- The FCARM and ElfDwT tools are provided under the [MDK v6 license agreement](https://www.keil.arm.com/license-agreement/).
+- The FCARM, ElfDwT, and uv2csolution tools are provided under the [MDK v6 license agreement](https://www.keil.arm.com/license-agreement/).
 - The Mbed TLS tools are provided under the [mbed TLS license argreement](https://github.com/Mbed-TLS/mbedtls/blob/development/LICENSE).
