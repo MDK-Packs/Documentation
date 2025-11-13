@@ -11,7 +11,7 @@ At the top-level of your directory structure:
 - Have a `vcpkg-configuration.json` file, even if you have multiple solutions/projects below. This will ensure that the
   correct tools are loaded for the example.
 - When creating or updating an example project, make sure to use the latest `.gitignore` file from the CMSIS Solution
-  extension. You will find it in `~/.vscode/extensions/arm.cmsis-csolution-X.Y.Z/templates/git`.
+  extension. You will find it on your PC in `~/.vscode/extensions/arm.cmsis-csolution-X.Y.Z/templates/git`.
 - When under Apache 2.0 license, add the [LICENSE](./LICENSE) file.
 - You might want to add a [`.vscode/extensions.json`](./extensions.json) file which triggers the installation of the
   required VS Code extensions.
