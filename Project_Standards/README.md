@@ -33,7 +33,7 @@ Keil RTX-based example projects should always have the following:
    - OS_TIMER_THREAD_NAME: \"Timer\"
    ```
 
-2. Thread names via an `osTreadAttr_t`:
+2. Thread names via an `osTreadAttr_t` in C source files:
 
    ```c
    // Create thread attribute to show thread name in the XRTOS viewer:
