@@ -27,10 +27,10 @@ Keil RTX-based example projects should always have the following:
 1. In the `cproject.yml` file, add this to get a nice naming of the idle and timer threads:
 
    ```yml
-  # Project define
-  define:
-    - OS_IDLE_THREAD_NAME: \"Idle\"
-    - OS_TIMER_THREAD_NAME: \"Timer\"
+   # Project define
+   define:
+     - OS_IDLE_THREAD_NAME: \"Idle\"
+     - OS_TIMER_THREAD_NAME: \"Timer\"
    ```
 
 2. Thread names via an `osTreadAttr_t` in C source files:
