@@ -45,6 +45,18 @@ Keil RTX-based example projects should always have the following:
    ```c
    #define OS_STACK_WATERMARK          1
    ```
+## VS Code files
+
+In stand-alone repositories that contain only one or more examples, a `.vscode/extensions.json` file with the
+following content should be added:
+
+```json
+{
+    "recommendations": [
+        "arm.keil-studio-pack"
+    ]
+}
+```
 
 ## GitHub specifics
 
